@@ -1,5 +1,5 @@
 (function($) {
-Drupal.behaviors.commerceReports = {
+Backdrop.behaviors.commerceReports = {
   attach: function (context) {
     $('.commerce-reports-dashboard-block .operations a.switchSection').click(function( e ) {
       e.preventDefault();

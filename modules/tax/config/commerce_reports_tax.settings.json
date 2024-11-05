@@ -1,0 +1,12 @@
+{
+    "_config_name": "commerce_reports_tax.settings",
+    "commerce_reports_tax_order_statuses": [
+        "pending",
+        "processing",
+        "completed"
+    ],
+    "commerce_reports_tax_order_generate_statuses": [
+        "pending",
+        "completed"
+    ]
+}

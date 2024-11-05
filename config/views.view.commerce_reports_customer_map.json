@@ -1,0 +1,137 @@
+{
+  "_config_name": "views.view.commerce_reports_customer_map",
+  "name": "commerce_reports_customer_map",
+  "description": "",
+  "tag": "commerce_reports",
+  "disabled": false,
+  "base_table": "commerce_customer_profile",
+  "human_name": "Customer Map",
+  "core": 7,
+  "display": {
+    "default": {
+      "display_title": "Master",
+      "display_plugin": "default",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "title": "Customer Map",
+        "use_more_always": false,
+        "group_by": true,
+        "access": {
+          "type": "none"
+        },
+        "cache": {
+          "type": "none"
+        },
+        "exposed_form": {
+          "type": "basic"
+        },
+        "pager": {
+          "type": "none"
+        },
+        "style_plugin": "chart",
+        "style_options": {
+          "type": "geomap",
+          "library": "google",
+          "label_field": "commerce_customer_address",
+          "data_fields": {
+            "profile_id": "profile_id",
+            "commerce_customer_address": 0
+          },
+          "field_colors": {
+            "commerce_customer_address": "#2f7ed8",
+            "profile_id": "#2e8a6a"
+          },
+          "width": "",
+          "height": "",
+          "xaxis_labels_rotation": "0",
+          "yaxis_labels_rotation": "0"
+        },
+        "fields": {
+          "commerce_customer_address": {
+            "id": "commerce_customer_address",
+            "table": "field_data_commerce_customer_address",
+            "field": "commerce_customer_address",
+            "label": "Country",
+            "alter": {
+              "alter_text": true,
+              "text": "[commerce_customer_address-country] "
+            },
+            "element_type": "0",
+            "element_label_colon": false,
+            "element_wrapper_type": "0",
+            "element_default_classes": false,
+            "click_sort_column": "country",
+            "settings": {
+              "use_widget_handlers": 0,
+              "format_handlers": {
+                "address": "address"
+              }
+            },
+            "group_column": "entity_id",
+            "group_columns": {
+              "country": "country"
+            }
+          },
+          "profile_id": {
+            "id": "profile_id",
+            "table": "commerce_customer_profile",
+            "field": "profile_id",
+            "group_type": "count",
+            "label": "Customers",
+            "element_type": "0",
+            "element_label_colon": false,
+            "element_wrapper_type": "0",
+            "element_default_classes": false
+          }
+        },
+        "filters": {
+          "type": {
+            "id": "type",
+            "table": "commerce_customer_profile",
+            "field": "type",
+            "value": {
+              "billing": "billing"
+            }
+          }
+        }
+      }
+    },
+    "billing_profiles_block": {
+      "display_title": "Billing Profile Map",
+      "display_plugin": "block",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        }
+      }
+    },
+    "shipping_profiles_block": {
+      "display_title": "Shipping Profile Map",
+      "display_plugin": "block",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "defaults": {
+          "filter_groups": false,
+          "filters": false
+        },
+        "filters": {
+          "type": {
+            "id": "type",
+            "table": "commerce_customer_profile",
+            "field": "type",
+            "value": {
+              "shipping": "shipping"
+            }
+          }
+        }
+      }
+    }
+  }
+}

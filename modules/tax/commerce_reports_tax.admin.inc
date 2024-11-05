@@ -8,6 +8,7 @@
  * Configuration form.
  */
 function commerce_reports_tax_form($form, &$form_state) {
+  $config = config('commerce_reports_tax.settings');
   $options = array();
 
   $statuses = commerce_order_statuses();
@@ -15,14 +16,14 @@ function commerce_reports_tax_form($form, &$form_state) {
     $options[$status['name']] = check_plain($status['title']);
   }
 
+  $form['#config'] = 'commerce_reports_tax.settings';
   $form['commerce_reports_tax_order_statuses']          = array(
     '#type'          => 'select',
     '#multiple'      => TRUE,
     '#title'         => t('Order statuses'),
     '#description'   => t('Statuses for which tax will be calculated.'),
     '#options'       => $options,
-    '#default_value' => variable_get('commerce_reports_tax_order_statuses',
-      array('pending', 'processing', 'completed')),
+    '#default_value' => $config->get('commerce_reports_tax_order_statuses'),
   );
   $form['commerce_reports_tax_order_generate_statuses'] = array(
     '#type'          => 'select',
@@ -30,8 +31,7 @@ function commerce_reports_tax_form($form, &$form_state) {
     '#title'         => t('Generate Order statuses'),
     '#description'   => t('Statuses for which tax will be generated.'),
     '#options'       => $options,
-    '#default_value' => variable_get('commerce_reports_tax_order_generate_statuses',
-      array('pending', 'completed')),
+    '#default_value' => $config->get('commerce_reports_tax_order_generate_statuses'),
   );
 
   $form['generate'] = array(
@@ -66,13 +66,14 @@ function commerce_reports_tax_generate_callback() {
  * Returns the table containing the tax report.
  */
 function commerce_reports_tax_table($start = 0, $end = REQUEST_TIME) {
-  if (!variable_get('commerce_reports_tax_batch_finished', FALSE)) {
-    drupal_set_message();
+  $config = config('commerce_reports_tax.settings');
+  if (!state_get('commerce_reports_tax_batch_finished', FALSE)) {
+    backdrop_set_message();
   }
 
   $rows = commerce_reports_tax($start, $end);
 
-  if (!variable_get('commerce_reports_tax_batch_finished', FALSE)) {
+  if (!state_get('commerce_reports_tax_batch_finished', FALSE)) {
     $rows = array();
 
     $rows[] = array(

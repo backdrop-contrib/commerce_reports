@@ -35,7 +35,7 @@ function _commerce_reports_tax_generate(&$context) {
       commerce_reports_tax_order_save($order, $update);
 
       $context['results']['orders'][] = $order->order_id;
-      $context['sandbox']['progress'] ++;
+      $context['sandbox']['progress']++;
       $context['sandbox']['current'] = $order->order_id;
     }
   }
@@ -51,11 +51,11 @@ function _commerce_reports_tax_generate(&$context) {
  */
 function _commerce_reports_tax_finished($success, $results, $operations) {
   if ($success) {
-    variable_set('commerce_reports_tax_batch_finished', REQUEST_TIME);
+    state_set('commerce_reports_tax_batch_finished', REQUEST_TIME);
 
-    drupal_set_message(t('Successfully generated tax report.'));
+    backdrop_set_message(t('Successfully generated tax report.'));
   }
   else {
-    drupal_set_message(t('There was a problem whilst generating the tax report. The information might be incomplete or erroneous.'), 'error');
+    backdrop_set_message(t('There was a problem whilst generating the tax report. The information might be incomplete or erroneous.'), 'error');
   }
 }

@@ -22,7 +22,7 @@ function commerce_reports_tax_help($path, $arg) {
 function commerce_reports_tax_views_api() {
   return array(
     'api' => 3,
-    'path' => drupal_get_path('module', 'commerce_reports_tax') . '/includes/views',
+    'path' => backdrop_get_path('module', 'commerce_reports_tax') . '/includes/views',
   );
 }
 
@@ -36,7 +36,7 @@ function commerce_reports_tax_menu() {
   $items['admin/commerce/config/tax-reports'] = array(
     'title' => 'Tax reports settings',
     'description' => 'Configure tax reports settings.',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('commerce_reports_tax_form'),
     'access arguments' => array('configure commerce tax reports'),
     'type' => MENU_NORMAL_ITEM,
@@ -67,7 +67,7 @@ function commerce_reports_tax_menu_alter(&$items) {
       'title' => 'Reports',
       'description' => 'View reports for your store.',
       'access arguments' => array('access commerce tax reports'),
-      'page callback' => 'drupal_goto',
+      'page callback' => 'backdrop_goto',
       'page arguments' => array('admin/commerce/reports/tax'),
       'weight' => 50,
     );
@@ -148,12 +148,22 @@ function commerce_reports_tax_block_view($delta = '') {
 }
 
 /**
+ * Implements hook_config_info().
+ */
+function commerce_reports_tax_config_info() {
+  $prefixes['commerce_reports_tax.settings'] = array(
+    'label' => t('Reports settings'),
+    'group' => t('Configuration'),
+  );
+  return $prefixes;
+}
+
+/**
  * Implements hook_entity_insert().
  */
 function commerce_reports_tax_entity_insert($entity, $type) {
   if ($type == 'commerce_order' &&
-    in_array($entity->status, variable_get('commerce_reports_tax_order_statuses',
-      array('pending', 'processing', 'completed')))) {
+    in_array($entity->status, config_get('commerce_reports_tax.settings', 'commerce_reports_tax_order_statuses'))) {
 
     commerce_reports_tax_order_save($entity);
   }
@@ -163,19 +173,18 @@ function commerce_reports_tax_entity_insert($entity, $type) {
  * Implements hook_entity_update().
  */
 function commerce_reports_tax_entity_update($entity, $type) {
+  $config = config('commerce_reports_tax.settings');
   if ($type == 'commerce_order' && isset($entity->original)) {
     // Mark original entity for easy reference.
     $original = $entity->original;
 
     // Check the updated status against statuses in settings.
     $order_current_status = in_array($entity->status,
-      variable_get('commerce_reports_tax_order_statuses',
-        array('pending', 'processing', 'completed')));
+      $config->get('commerce_reports_tax_order_statuses'));
 
     // Check the original status, so we know if we need to remove last record.
     $order_previous_status = in_array($original->status,
-      variable_get('commerce_reports_tax_order_statuses',
-        array('pending', 'processing', 'completed')));
+      $config->get('commerce_reports_tax_order_statuses'));
 
     // The order changed to a order status we're interested in, but did not
     // previously have a watched status. Create a new record.
@@ -188,7 +197,7 @@ function commerce_reports_tax_entity_update($entity, $type) {
     }
     // The price has been modified on a watched order.
     elseif ($order_current_status && $order_previous_status
-      && $original->commerce_order_total != $entity->commerce_order_total) {
+        && $original->commerce_order_total != $entity->commerce_order_total) {
       commerce_reports_tax_order_save($entity);
     }
   }
@@ -207,7 +216,7 @@ function commerce_reports_tax_entity_delete($entity, $type) {
  * Returns the order statuses that should be taken into account.
  */
 function commerce_reports_tax_order_statuses() {
-  return variable_get('commerce_reports_tax_order_generate_statuses', array('pending', 'completed'));
+  return config_get('commerce_reports_tax.settings', 'commerce_reports_tax_order_generate_statuses');
 }
 
 /**
@@ -220,7 +229,7 @@ function commerce_reports_tax_generate() {
       array('_commerce_reports_tax_generate', array()),
     ),
     'finished' => '_commerce_reports_tax_finished',
-    'file' => drupal_get_path('module', 'commerce_reports_tax') . '/commerce_reports_tax.batch.inc',
+    'file' => backdrop_get_path('module', 'commerce_reports_tax') . '/commerce_reports_tax.batch.inc',
   );
 
   batch_set($batch);
@@ -268,7 +277,7 @@ function commerce_reports_tax($start, $end) {
  * accordingly.
  */
 function commerce_reports_tax_order_save($order) {
-  /** @var EntityDrupalWrapper $wrapper */
+  /** @var EntityBackdropWrapper $wrapper */
   $wrapper = entity_metadata_wrapper('commerce_order', $order);
   $order_id = $wrapper->order_id->value();
 
@@ -313,7 +322,7 @@ function commerce_reports_tax_order_save($order) {
     // Update record.
     while ($row = $result->fetchAssoc()) {
       $tax_record_id = $row['tax_rate'] . $row['order_id'] . $row['currency_code'];
-      drupal_write_record(
+      backdrop_write_record(
         'commerce_reports_tax',
         $applied_taxes[$tax_record_id],
         array('tax_rate', 'order_id', 'currency_code'));
@@ -322,7 +331,7 @@ function commerce_reports_tax_order_save($order) {
   else {
     // Insert any of the remaining applied taxes.
     foreach ($applied_taxes as $tax) {
-      drupal_write_record('commerce_reports_tax', $tax);
+      backdrop_write_record('commerce_reports_tax', $tax);
     }
   }
 }
@@ -330,13 +339,13 @@ function commerce_reports_tax_order_save($order) {
 /**
  * Helper function for getting applied tax rate from line item wrapper.
  *
- * @param EntityDrupalWrapper $line_item_wrapper
+ * @param EntityBackdropWrapper $line_item_wrapper
  *   The wrapped line item entity.
  *
  * @return array
  *   An array set of tax rates from given line item.
  */
-function _commerce_reports_tax_get_tax_rates(EntityDrupalWrapper $line_item_wrapper) {
+function _commerce_reports_tax_get_tax_rates(EntityBackdropWrapper $line_item_wrapper) {
   $commerce_total_data = $line_item_wrapper->commerce_total->data->value();
   $tax_rates = array();
   foreach ($commerce_total_data['components'] as $component) {
@@ -353,11 +362,11 @@ function _commerce_reports_tax_get_tax_rates(EntityDrupalWrapper $line_item_wrap
  * @return array
  *    Array of order states for Views to filter on.
  */
-function commerce_reports_tax_reportable_order_states(){
-  if(function_exists('commerce_reports_reportable_order_states')) {
+function commerce_reports_tax_reportable_order_states() {
+  if (function_exists('commerce_reports_reportable_order_states')) {
     return commerce_reports_reportable_order_states();
   }
-  $cache =& drupal_static(__FUNCTION__, array());
+  $cache = &backdrop_static(__FUNCTION__, array());
 
   if (empty($cache)) {
     $report_states = array(
@@ -378,4 +387,14 @@ function commerce_reports_tax_reportable_order_states(){
   }
 
   return $cache;
+}
+
+/**
+ * Implements hook_autoload_info().
+ */
+function commerce_reports_tax_autoload_info() {
+  return array(
+    'CommerceReportsTaxGenerationTests' => 'Tests/CommerceReportsTaxGenerationTests.php',
+    'commerce_reports_tax_handler_field_tax_rate_display_name' => 'includes/views/handlers/commerce_reports_tax_handler_field_tax_rate_display_name.inc',
+  );
 }

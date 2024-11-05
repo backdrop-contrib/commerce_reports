@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Form
+ */
 function commerce_reports_patterns_form($form, &$form_state) {
   $form['min_support'] = array(
     '#type' => 'textfield',
@@ -19,14 +22,19 @@ function commerce_reports_patterns_form($form, &$form_state) {
     '#type' => 'submit',
     '#value' => t('Generate'),
   );
-  
+
   return $form;
 }
 
+/**
+ * Validation handler for Form
+ *
+ * @see commerce_reports_patterns_form().
+ */
 function commerce_reports_patterns_form_validate($form, &$form_state) {
   $min_support = (float) $form_state['values']['min_support'];
   $min_confidence = (float) $form_state['values']['min_confidence'];
-  
+
   if (($min_support < 0) || ($min_support > 100)) {
     form_set_error('min_support', t('The minimum support should be a value between 0 and 100.'));
   }
@@ -35,10 +43,15 @@ function commerce_reports_patterns_form_validate($form, &$form_state) {
   }
 }
 
+/**
+ * Submission handler for Form.
+ *
+ * @see commerce_reports_patterns_form().
+ */
 function commerce_reports_patterns_form_submit($form, &$form_state) {
   $min_support = (float) $form_state['values']['min_support'] / 100;
   $min_confidence = (float) $form_state['values']['min_confidence'] / 100;
-  
+
   $batch = array(
     'title' => t('Association rule mining'),
     'operations' => array(
@@ -47,32 +60,43 @@ function commerce_reports_patterns_form_submit($form, &$form_state) {
       array('commerce_reports_patterns_association_rules', array($min_confidence)),
     ),
     'finished' => 'commerce_reports_patterns_finished',
-    'file' => drupal_get_path('module', 'commerce_reports_patterns') . '/commerce_reports_patterns.batch.inc',
+    'file' => backdrop_get_path('module', 'commerce_reports_patterns') . '/commerce_reports_patterns.batch.inc',
   );
-  
+
   batch_set($batch);
-  
+
   batch_process('admin/commerce/reports/patterns/view');
 }
 
+/**
+ * Page callback
+ *
+ * @see admin/commerce/reports/patterns/view
+ */
 function commerce_reports_patterns_view() {
   $maxSize = db_query("SELECT MAX(size) FROM {commerce_reports_patterns}")->fetchField();
-  
+
   $return = array();
-  for ($i = $maxSize; $i > 1; $i --) {
-   $return[] = _commerce_reports_patterns_view($i);
+  for ($i = $maxSize; $i > 1; $i--) {
+    $return[] = _commerce_reports_patterns_view($i);
   }
-  
+
   if ($maxSize) {
     return $return;
-  } else {
+  }
+  else {
     return t('No association rules found using the specified parameters.');
   }
 }
 
+/**
+ * Build view
+ *
+ * @see commerce_reports_patterns_view().
+ */
 function _commerce_reports_patterns_view($size) {
   $query = db_query("SELECT if_clause, then_clause, confidence FROM {commerce_reports_patterns} WHERE size = :size ORDER BY confidence DESC LIMIT 10", array(':size' => $size));
-  
+
   $rules = array();
   while ($result = $query->fetchAssoc()) {
     $rules[] = array(
@@ -85,7 +109,7 @@ function _commerce_reports_patterns_view($size) {
       round($result['confidence'] * 100) . '%'
     );
   }
-  
+
   return array(
     '#theme' => 'table',
     '#rows' => $rules,

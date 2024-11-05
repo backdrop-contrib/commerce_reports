@@ -1,0 +1,1881 @@
+{
+  "_config_name": "views.view.commerce_reports_sales",
+  "name": "commerce_reports_sales",
+  "description": "View commerce daily and monthly sales totals.",
+  "tag": "commerce_reports",
+  "disabled": false,
+  "base_table": "commerce_order",
+  "human_name": "Sales reports",
+  "core": 7,
+  "display": {
+    "default": {
+      "display_title": "Master",
+      "display_plugin": "default",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": {
+            "query_comment": false
+          }
+        },
+        "title": "Sales report",
+        "css_class": "commerce-reports",
+        "use_more_always": false,
+        "group_by": true,
+        "access": {
+          "type": "perm",
+          "perm": "access commerce reports"
+        },
+        "cache": {
+          "type": "none"
+        },
+        "exposed_form": {
+          "type": "basic",
+          "options": {
+            "submit_button": "Refresh report"
+          }
+        },
+        "pager": {
+          "type": "none"
+        },
+        "style_plugin": "table",
+        "style_options": {
+          "columns": {
+            "sales_data": "sales_data",
+            "order_id": "order_id",
+            "commerce_order_total": "commerce_order_total",
+            "commerce_order_total_1": "commerce_order_total_1"
+          },
+          "default": "sales_data",
+          "info": {
+            "sales_data": {
+              "sortable": 1,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            },
+            "order_id": {
+              "sortable": 0,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            },
+            "commerce_order_total": {
+              "sortable": 0,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            },
+            "commerce_order_total_1": {
+              "sortable": 0,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            }
+          }
+        },
+        "fields": {
+          "order_id": {
+            "id": "order_id",
+            "table": "commerce_order",
+            "field": "order_id",
+            "group_type": "count",
+            "label": "Number of Orders"
+          },
+          "commerce_order_total": {
+            "id": "commerce_order_total",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "sum",
+            "label": "Total Revenue",
+            "click_sort_column": "amount",
+            "type": "commerce_price_formatted_amount",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          },
+          "commerce_order_total_1": {
+            "id": "commerce_order_total_1",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "avg",
+            "label": "Average Order",
+            "click_sort_column": "amount",
+            "type": "commerce_price_formatted_amount",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          }
+        },
+        "filters": {
+          "state": {
+            "id": "state",
+            "table": "commerce_order",
+            "field": "state",
+            "value": {
+              "pending": "pending",
+              "completed": "completed"
+            },
+            "exposed": true,
+            "expose": {
+              "operator_id": "state_op",
+              "label": "Order State",
+              "operator": "state_op",
+              "identifier": "state",
+              "multiple": true
+            }
+          }
+        }
+      }
+    },
+    "page": {
+      "display_title": "Sales reports (Month)",
+      "display_plugin": "page",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "defaults": {
+          "title": false,
+          "hide_admin_links": false,
+          "style_plugin": false,
+          "style_options": false,
+          "row_plugin": false,
+          "row_options": false,
+          "fields": false,
+          "sorts": false,
+          "filter_groups": false,
+          "filters": false
+        },
+        "title": "Monthly sales report",
+        "style_plugin": "table",
+        "style_options": {
+          "columns": {
+            "created": "created",
+            "order_id": "order_id",
+            "commerce_order_total": "commerce_order_total",
+            "commerce_order_total_1": "commerce_order_total_1"
+          },
+          "default": "-1",
+          "info": {
+            "created": {
+              "sortable": 0,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            },
+            "order_id": {
+              "sortable": 1,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            },
+            "commerce_order_total": {
+              "sortable": 1,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            },
+            "commerce_order_total_1": {
+              "sortable": 1,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            }
+          }
+        },
+        "fields": {
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "label": "Order date",
+            "date_format": "custom",
+            "custom_date_format": "F Y",
+            "format_date_sql": 1
+          },
+          "order_id": {
+            "id": "order_id",
+            "table": "commerce_order",
+            "field": "order_id",
+            "group_type": "count",
+            "label": "Number of Orders"
+          },
+          "commerce_order_total": {
+            "id": "commerce_order_total",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "sum",
+            "label": "Total Revenue",
+            "click_sort_column": "amount",
+            "type": "commerce_price_formatted_amount",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          },
+          "commerce_order_total_1": {
+            "id": "commerce_order_total_1",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "avg",
+            "label": "Average Order",
+            "click_sort_column": "amount",
+            "type": "commerce_price_formatted_amount",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          }
+        },
+        "sorts": {
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "order": "DESC",
+            "exposed": true,
+            "expose": {
+              "label": "Order date"
+            },
+            "granularity": "month"
+          }
+        },
+        "filters": {
+          "state": {
+            "id": "state",
+            "table": "commerce_order",
+            "field": "state",
+            "value": {
+              "pending": "pending",
+              "completed": "completed"
+            },
+            "exposed": true,
+            "expose": {
+              "operator_id": "state_op",
+              "label": "Order State",
+              "operator": "state_op",
+              "identifier": "state",
+              "multiple": true
+            }
+          },
+          "date_filter": {
+            "id": "date_filter",
+            "table": "commerce_order",
+            "field": "date_filter",
+            "operator": "between",
+            "exposed": true,
+            "expose": {
+              "operator_id": "date_filter_op",
+              "label": "Order date",
+              "operator": "date_filter_op",
+              "identifier": "date_filter",
+              "remember_roles": {
+                "2": "2",
+                "1": 0
+              }
+            },
+            "form_type": "date_popup",
+            "default_date": "-12 months",
+            "default_to_date": "now",
+            "year_range": "-4:+0",
+            "date_fields": {
+              "commerce_order.created": "commerce_order.created"
+            }
+          }
+        },
+        "path": "admin/commerce/reports/sales",
+        "menu": {
+          "type": "tab",
+          "title": "Sales",
+          "description": "View sales reports.",
+          "weight": "10",
+          "name": "management",
+          "context": 0
+        },
+        "tab_options": {
+          "type": "normal",
+          "title": "Sales totals",
+          "description": "View daily and monthly sales totals.",
+          "weight": "-10",
+          "name": "management"
+        }
+      }
+    },
+    "page_1": {
+      "display_title": "Sales reports (Weekly)",
+      "display_plugin": "page",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "defaults": {
+          "title": false,
+          "hide_admin_links": false,
+          "style_plugin": false,
+          "style_options": false,
+          "row_plugin": false,
+          "row_options": false,
+          "fields": false,
+          "sorts": false,
+          "filter_groups": false,
+          "filters": false
+        },
+        "title": "Weekly sales report",
+        "style_plugin": "table",
+        "style_options": {
+          "columns": {
+            "created": "created",
+            "order_id": "order_id",
+            "commerce_order_total": "commerce_order_total",
+            "commerce_order_total_1": "commerce_order_total_1"
+          },
+          "default": "-1",
+          "info": {
+            "created": {
+              "sortable": 0,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            },
+            "order_id": {
+              "sortable": 1,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            },
+            "commerce_order_total": {
+              "sortable": 1,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            },
+            "commerce_order_total_1": {
+              "sortable": 1,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            }
+          }
+        },
+        "fields": {
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "label": "Order date",
+            "date_format": "custom",
+            "custom_date_format": "\\w\\e\\e\\k W \\o\\f Y",
+            "format_date_sql": 1
+          },
+          "order_id": {
+            "id": "order_id",
+            "table": "commerce_order",
+            "field": "order_id",
+            "group_type": "count",
+            "label": "Number of Orders"
+          },
+          "commerce_order_total": {
+            "id": "commerce_order_total",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "sum",
+            "label": "Total Revenue",
+            "click_sort_column": "amount",
+            "type": "commerce_price_formatted_amount",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          },
+          "commerce_order_total_1": {
+            "id": "commerce_order_total_1",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "avg",
+            "label": "Average Order",
+            "click_sort_column": "amount",
+            "type": "commerce_price_formatted_amount",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          }
+        },
+        "sorts": {
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "order": "DESC",
+            "exposed": true,
+            "expose": {
+              "label": "Order date"
+            },
+            "granularity": "week"
+          }
+        },
+        "filters": {
+          "state": {
+            "id": "state",
+            "table": "commerce_order",
+            "field": "state",
+            "value": {
+              "pending": "pending",
+              "completed": "completed"
+            },
+            "exposed": true,
+            "expose": {
+              "operator_id": "state_op",
+              "label": "Order State",
+              "operator": "state_op",
+              "identifier": "state",
+              "multiple": true
+            }
+          },
+          "date_filter": {
+            "id": "date_filter",
+            "table": "commerce_order",
+            "field": "date_filter",
+            "operator": "between",
+            "exposed": true,
+            "expose": {
+              "operator_id": "date_filter_op",
+              "label": "Order date",
+              "operator": "date_filter_op",
+              "identifier": "date_filter",
+              "remember_roles": {
+                "2": "2",
+                "1": 0
+              }
+            },
+            "form_type": "date_popup",
+            "default_date": "-12 months",
+            "default_to_date": "now",
+            "year_range": "-4:+0",
+            "date_fields": {
+              "commerce_order.created": "commerce_order.created"
+            }
+          }
+        },
+        "path": "admin/commerce/reports/sales/weekly",
+        "menu": {
+          "type": "tab",
+          "title": "Weekly",
+          "description": "View sales reports.",
+          "weight": "10",
+          "name": "management",
+          "context": 0
+        },
+        "tab_options": {
+          "type": "normal",
+          "title": "Sales totals",
+          "description": "View daily and monthly sales totals.",
+          "weight": "-10",
+          "name": "management"
+        }
+      }
+    },
+    "page_2": {
+      "display_title": "Sales reports (Daily)",
+      "display_plugin": "page",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "defaults": {
+          "title": false,
+          "hide_admin_links": false,
+          "style_plugin": false,
+          "style_options": false,
+          "row_plugin": false,
+          "row_options": false,
+          "fields": false,
+          "sorts": false,
+          "filter_groups": false,
+          "filters": false
+        },
+        "title": "Daily sales report",
+        "style_plugin": "table",
+        "style_options": {
+          "columns": {
+            "created": "created",
+            "order_id": "order_id",
+            "commerce_order_total": "commerce_order_total",
+            "commerce_order_total_1": "commerce_order_total_1"
+          },
+          "default": "-1",
+          "info": {
+            "created": {
+              "sortable": 0,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            },
+            "order_id": {
+              "sortable": 1,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            },
+            "commerce_order_total": {
+              "sortable": 1,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            },
+            "commerce_order_total_1": {
+              "sortable": 1,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            }
+          }
+        },
+        "fields": {
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "label": "Order date",
+            "date_format": "custom",
+            "custom_date_format": "j F Y",
+            "format_date_sql": 1
+          },
+          "order_id": {
+            "id": "order_id",
+            "table": "commerce_order",
+            "field": "order_id",
+            "group_type": "count",
+            "label": "Number of Orders"
+          },
+          "commerce_order_total": {
+            "id": "commerce_order_total",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "sum",
+            "label": "Total Revenue",
+            "click_sort_column": "amount",
+            "type": "commerce_price_formatted_amount",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          },
+          "commerce_order_total_1": {
+            "id": "commerce_order_total_1",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "avg",
+            "label": "Average Order",
+            "click_sort_column": "amount",
+            "type": "commerce_price_formatted_amount",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          }
+        },
+        "sorts": {
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "order": "DESC",
+            "exposed": true,
+            "expose": {
+              "label": "Order date"
+            },
+            "granularity": "day"
+          }
+        },
+        "filters": {
+          "state": {
+            "id": "state",
+            "table": "commerce_order",
+            "field": "state",
+            "value": {
+              "pending": "pending",
+              "completed": "completed"
+            },
+            "exposed": true,
+            "expose": {
+              "operator_id": "state_op",
+              "label": "Order State",
+              "operator": "state_op",
+              "identifier": "state",
+              "multiple": true
+            }
+          },
+          "date_filter": {
+            "id": "date_filter",
+            "table": "commerce_order",
+            "field": "date_filter",
+            "operator": "between",
+            "exposed": true,
+            "expose": {
+              "operator_id": "date_filter_op",
+              "label": "Order date",
+              "operator": "date_filter_op",
+              "identifier": "date_filter",
+              "remember_roles": {
+                "2": "2",
+                "1": 0
+              }
+            },
+            "form_type": "date_popup",
+            "default_date": "-1 months",
+            "default_to_date": "now",
+            "year_range": "-4:+0",
+            "date_fields": {
+              "commerce_order.created": "commerce_order.created"
+            }
+          }
+        },
+        "path": "admin/commerce/reports/sales/daily",
+        "menu": {
+          "type": "tab",
+          "title": "Daily",
+          "description": "View sales reports.",
+          "weight": "10",
+          "name": "management",
+          "context": 0
+        },
+        "tab_options": {
+          "type": "normal",
+          "title": "Sales totals",
+          "description": "View daily and monthly sales totals.",
+          "weight": "-10",
+          "name": "management"
+        }
+      }
+    },
+    "page_3": {
+      "display_title": "Sales reports (Yearly)",
+      "display_plugin": "page",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "defaults": {
+          "title": false,
+          "hide_admin_links": false,
+          "style_plugin": false,
+          "style_options": false,
+          "row_plugin": false,
+          "row_options": false,
+          "fields": false,
+          "sorts": false,
+          "filter_groups": false,
+          "filters": false
+        },
+        "title": "Yearly sales report",
+        "style_plugin": "table",
+        "style_options": {
+          "columns": {
+            "created": "created",
+            "order_id": "order_id",
+            "commerce_order_total": "commerce_order_total",
+            "commerce_order_total_1": "commerce_order_total_1"
+          },
+          "default": "-1",
+          "info": {
+            "created": {
+              "sortable": 0,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            },
+            "order_id": {
+              "sortable": 1,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            },
+            "commerce_order_total": {
+              "sortable": 1,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            },
+            "commerce_order_total_1": {
+              "sortable": 1,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            }
+          }
+        },
+        "fields": {
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "label": "Order date",
+            "date_format": "custom",
+            "custom_date_format": "Y",
+            "format_date_sql": 1
+          },
+          "order_id": {
+            "id": "order_id",
+            "table": "commerce_order",
+            "field": "order_id",
+            "group_type": "count",
+            "label": "Number of Orders"
+          },
+          "commerce_order_total": {
+            "id": "commerce_order_total",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "sum",
+            "label": "Total Revenue",
+            "click_sort_column": "amount",
+            "type": "commerce_price_formatted_amount",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          },
+          "commerce_order_total_1": {
+            "id": "commerce_order_total_1",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "avg",
+            "label": "Average Order",
+            "click_sort_column": "amount",
+            "type": "commerce_price_formatted_amount",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          }
+        },
+        "sorts": {
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "order": "DESC",
+            "exposed": true,
+            "expose": {
+              "label": "Order date"
+            },
+            "granularity": "year"
+          }
+        },
+        "filters": {
+          "state": {
+            "id": "state",
+            "table": "commerce_order",
+            "field": "state",
+            "value": {
+              "pending": "pending",
+              "completed": "completed"
+            },
+            "exposed": true,
+            "expose": {
+              "operator_id": "state_op",
+              "label": "Order State",
+              "operator": "state_op",
+              "identifier": "state",
+              "multiple": true
+            }
+          },
+          "date_filter": {
+            "id": "date_filter",
+            "table": "commerce_order",
+            "field": "date_filter",
+            "operator": "between",
+            "exposed": true,
+            "expose": {
+              "operator_id": "date_filter_op",
+              "label": "Order date",
+              "operator": "date_filter_op",
+              "identifier": "date_filter",
+              "remember_roles": {
+                "2": "2",
+                "1": 0
+              }
+            },
+            "form_type": "date_popup",
+            "default_date": "-10 years",
+            "default_to_date": "now",
+            "year_range": "-10:+0",
+            "date_fields": {
+              "commerce_order.created": "commerce_order.created"
+            }
+          }
+        },
+        "path": "admin/commerce/reports/sales/yearly",
+        "menu": {
+          "type": "tab",
+          "title": "Yearly",
+          "description": "View sales reports.",
+          "weight": "20",
+          "name": "management",
+          "context": 0
+        },
+        "tab_options": {
+          "type": "normal",
+          "title": "Sales totals",
+          "description": "View yearly sales totals.",
+          "weight": "-10",
+          "name": "management"
+        }
+      }
+    },
+    "chart_year": {
+      "display_title": "Chart (one year)",
+      "display_plugin": "block",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "defaults": {
+          "pager": false,
+          "style_plugin": false,
+          "style_options": false,
+          "fields": false,
+          "sorts": false,
+          "filter_groups": false,
+          "filters": false
+        },
+        "pager": {
+          "type": "none",
+          "options": {
+            "offset": "0"
+          }
+        },
+        "style_plugin": "chart",
+        "style_options": {
+          "type": "line",
+          "library": "google",
+          "label_field": "created",
+          "data_fields": {
+            "commerce_order_total": "commerce_order_total",
+            "commerce_order_total_1": "commerce_order_total_1",
+            "order_id": 0,
+            "created": 0
+          },
+          "field_colors": {
+            "order_id": "#0d233a",
+            "commerce_order_total": "#8bbc21",
+            "commerce_order_total_1": "#910000",
+            "created": "#910000"
+          },
+          "width": "1140",
+          "height": "225",
+          "xaxis_labels_rotation": "45",
+          "yaxis_labels_rotation": "0"
+        },
+        "fields": {
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "element_default_classes": false,
+            "date_format": "custom",
+            "custom_date_format": "M Y",
+            "format_date_sql": 1
+          },
+          "order_id": {
+            "id": "order_id",
+            "table": "commerce_order",
+            "field": "order_id",
+            "group_type": "count",
+            "label": "Number of Orders",
+            "empty": "0"
+          },
+          "commerce_order_total": {
+            "id": "commerce_order_total",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "sum",
+            "label": "Total Revenue",
+            "empty": "0",
+            "click_sort_column": "amount",
+            "type": "commerce_reports_visualization",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          },
+          "commerce_order_total_1": {
+            "id": "commerce_order_total_1",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "avg",
+            "label": "Average Order",
+            "empty": "0",
+            "click_sort_column": "amount",
+            "type": "commerce_reports_visualization",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          }
+        },
+        "sorts": {
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "granularity": "month"
+          }
+        },
+        "filters": {
+          "state": {
+            "id": "state",
+            "table": "commerce_order",
+            "field": "state",
+            "value": {
+              "pending": "pending",
+              "completed": "completed"
+            },
+            "exposed": true,
+            "expose": {
+              "operator_id": "state_op",
+              "label": "Order State",
+              "operator": "state_op",
+              "identifier": "state",
+              "multiple": true
+            }
+          },
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "operator": ">=",
+            "value": {
+              "value": "-1 year",
+              "type": "offset"
+            }
+          }
+        }
+      }
+    },
+    "chart_month": {
+      "display_title": "Chart (one month)",
+      "display_plugin": "block",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "defaults": {
+          "pager": false,
+          "style_plugin": false,
+          "style_options": false,
+          "fields": false,
+          "sorts": false,
+          "filter_groups": false,
+          "filters": false
+        },
+        "pager": {
+          "type": "none",
+          "options": {
+            "offset": "0"
+          }
+        },
+        "style_plugin": "chart",
+        "style_options": {
+          "type": "line",
+          "library": "google",
+          "label_field": "created",
+          "data_fields": {
+            "commerce_order_total": "commerce_order_total",
+            "commerce_order_total_1": "commerce_order_total_1",
+            "created": 0,
+            "order_id": 0
+          },
+          "field_colors": {
+            "created": "#2f7ed8",
+            "order_id": "#0d233a",
+            "commerce_order_total": "#8bbc21",
+            "commerce_order_total_1": "#910000"
+          },
+          "width": "1140",
+          "height": "225",
+          "xaxis_labels_rotation": "45",
+          "yaxis_labels_rotation": "0"
+        },
+        "fields": {
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "date_format": "custom",
+            "custom_date_format": "d M",
+            "format_date_sql": 1
+          },
+          "order_id": {
+            "id": "order_id",
+            "table": "commerce_order",
+            "field": "order_id",
+            "group_type": "count",
+            "label": "Number of Orders",
+            "empty": "0"
+          },
+          "commerce_order_total": {
+            "id": "commerce_order_total",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "sum",
+            "label": "Total Revenue",
+            "empty": "0",
+            "click_sort_column": "amount",
+            "type": "commerce_reports_visualization",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          },
+          "commerce_order_total_1": {
+            "id": "commerce_order_total_1",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "avg",
+            "label": "Average Order",
+            "empty": "0",
+            "click_sort_column": "amount",
+            "type": "commerce_reports_visualization",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          }
+        },
+        "sorts": {
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "granularity": "day"
+          }
+        },
+        "filters": {
+          "state": {
+            "id": "state",
+            "table": "commerce_order",
+            "field": "state",
+            "value": {
+              "pending": "pending",
+              "completed": "completed"
+            },
+            "exposed": true,
+            "expose": {
+              "operator_id": "state_op",
+              "label": "Order State",
+              "operator": "state_op",
+              "identifier": "state",
+              "multiple": true
+            }
+          },
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "operator": ">=",
+            "value": {
+              "value": "-1 month",
+              "type": "offset"
+            }
+          }
+        }
+      }
+    },
+    "chart_week": {
+      "display_title": "Chart (one week)",
+      "display_plugin": "block",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "defaults": {
+          "pager": false,
+          "style_plugin": false,
+          "style_options": false,
+          "fields": false,
+          "sorts": false,
+          "filter_groups": false,
+          "filters": false
+        },
+        "pager": {
+          "type": "none",
+          "options": {
+            "offset": "0"
+          }
+        },
+        "style_plugin": "chart",
+        "style_options": {
+          "type": "line",
+          "library": "google",
+          "label_field": "created",
+          "data_fields": {
+            "commerce_order_total": "commerce_order_total",
+            "commerce_order_total_1": "commerce_order_total_1",
+            "created": 0,
+            "order_id": 0
+          },
+          "field_colors": {
+            "created": "#2f7ed8",
+            "order_id": "#0d233a",
+            "commerce_order_total": "#8bbc21",
+            "commerce_order_total_1": "#910000"
+          },
+          "width": "1140",
+          "height": "225",
+          "xaxis_labels_rotation": "45",
+          "yaxis_labels_rotation": "0"
+        },
+        "fields": {
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "date_format": "custom",
+            "custom_date_format": "j F",
+            "format_date_sql": 1
+          },
+          "order_id": {
+            "id": "order_id",
+            "table": "commerce_order",
+            "field": "order_id",
+            "group_type": "count",
+            "label": "Number of Orders",
+            "empty": "0"
+          },
+          "commerce_order_total": {
+            "id": "commerce_order_total",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "sum",
+            "label": "Total Revenue",
+            "empty": "0",
+            "click_sort_column": "amount",
+            "type": "commerce_reports_visualization",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          },
+          "commerce_order_total_1": {
+            "id": "commerce_order_total_1",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "avg",
+            "label": "Average Order",
+            "empty": "0",
+            "click_sort_column": "amount",
+            "type": "commerce_reports_visualization",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          }
+        },
+        "sorts": {
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "granularity": "day"
+          }
+        },
+        "filters": {
+          "state": {
+            "id": "state",
+            "table": "commerce_order",
+            "field": "state",
+            "value": {
+              "pending": "pending",
+              "completed": "completed"
+            },
+            "exposed": true,
+            "expose": {
+              "operator_id": "state_op",
+              "label": "Order State",
+              "operator": "state_op",
+              "identifier": "state",
+              "multiple": true
+            }
+          },
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "operator": ">=",
+            "value": {
+              "value": "-1 week",
+              "type": "offset"
+            }
+          }
+        }
+      }
+    },
+    "views_data_export_1": {
+      "display_title": "Data export (Monthly)",
+      "display_plugin": "views_data_export",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "pager": {
+          "type": "none",
+          "options": {
+            "offset": "0"
+          }
+        },
+        "style_plugin": "views_data_export_csv",
+        "style_options": {
+          "provide_file": 1,
+          "filename": "%view-%timestamp-full.csv",
+          "parent_sort": 1,
+          "quote": 1,
+          "trim": 1,
+          "replace_newlines": 0,
+          "header": 1,
+          "keep_html": 0
+        },
+        "defaults": {
+          "fields": false,
+          "sorts": false,
+          "filter_groups": false,
+          "filters": false
+        },
+        "fields": {
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "date_format": "custom",
+            "custom_date_format": "F Y",
+            "format_date_sql": 1
+          },
+          "order_id": {
+            "id": "order_id",
+            "table": "commerce_order",
+            "field": "order_id",
+            "group_type": "count",
+            "label": "Number of Orders"
+          },
+          "commerce_order_total": {
+            "id": "commerce_order_total",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "sum",
+            "label": "Total Revenue",
+            "click_sort_column": "amount",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          },
+          "commerce_order_total_1": {
+            "id": "commerce_order_total_1",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "avg",
+            "label": "Average Order",
+            "click_sort_column": "amount",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          }
+        },
+        "sorts": {
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "exposed": true,
+            "expose": {
+              "label": "Created date"
+            },
+            "granularity": "month"
+          }
+        },
+        "filters": {
+          "state": {
+            "id": "state",
+            "table": "commerce_order",
+            "field": "state",
+            "value": {
+              "pending": "pending",
+              "completed": "completed"
+            },
+            "exposed": true,
+            "expose": {
+              "operator_id": "state_op",
+              "label": "Order State",
+              "operator": "state_op",
+              "identifier": "state",
+              "multiple": true
+            }
+          },
+          "date_filter": {
+            "id": "date_filter",
+            "table": "commerce_order",
+            "field": "date_filter",
+            "operator": "between",
+            "exposed": true,
+            "expose": {
+              "operator_id": "date_filter_op",
+              "label": "Date (commerce_order)",
+              "operator": "date_filter_op",
+              "identifier": "date_filter",
+              "remember_roles": {
+                "2": "2",
+                "1": 0,
+                "3": 0
+              }
+            },
+            "form_type": "date_popup",
+            "default_date": "-12 months",
+            "default_to_date": "now",
+            "year_range": "-4:+0",
+            "date_fields": {
+              "commerce_order.created": "commerce_order.created"
+            }
+          }
+        },
+        "path": "admin/commerce/reports/sales/export",
+        "displays": {
+          "page": "page",
+          "default": 0,
+          "page_1": 0,
+          "page_2": 0,
+          "page_3": 0,
+          "chart_year": 0,
+          "chart_month": 0,
+          "chart_week": 0
+        }
+      }
+    },
+    "views_data_export_3": {
+      "display_title": "Data export (Weekly)",
+      "display_plugin": "views_data_export",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "pager": {
+          "type": "none",
+          "options": {
+            "offset": "0"
+          }
+        },
+        "style_plugin": "views_data_export_csv",
+        "style_options": {
+          "provide_file": 1,
+          "filename": "%view-%timestamp-full.csv",
+          "parent_sort": 1,
+          "quote": 1,
+          "trim": 1,
+          "replace_newlines": 0,
+          "header": 1,
+          "keep_html": 0
+        },
+        "defaults": {
+          "fields": false,
+          "sorts": false,
+          "filter_groups": false,
+          "filters": false
+        },
+        "fields": {
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "date_format": "custom",
+            "custom_date_format": "\\w\\e\\e\\k W \\o\\f Y",
+            "format_date_sql": 1
+          },
+          "order_id": {
+            "id": "order_id",
+            "table": "commerce_order",
+            "field": "order_id",
+            "group_type": "count",
+            "label": "Number of Orders"
+          },
+          "commerce_order_total": {
+            "id": "commerce_order_total",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "sum",
+            "label": "Total Revenue",
+            "click_sort_column": "amount",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          },
+          "commerce_order_total_1": {
+            "id": "commerce_order_total_1",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "avg",
+            "label": "Average Order",
+            "click_sort_column": "amount",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          }
+        },
+        "sorts": {
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "exposed": true,
+            "expose": {
+              "label": "Created date"
+            },
+            "granularity": "week"
+          }
+        },
+        "filters": {
+          "state": {
+            "id": "state",
+            "table": "commerce_order",
+            "field": "state",
+            "value": {
+              "pending": "pending",
+              "completed": "completed"
+            },
+            "exposed": true,
+            "expose": {
+              "operator_id": "state_op",
+              "label": "Order State",
+              "operator": "state_op",
+              "identifier": "state",
+              "multiple": true
+            }
+          },
+          "date_filter": {
+            "id": "date_filter",
+            "table": "commerce_order",
+            "field": "date_filter",
+            "operator": "between",
+            "exposed": true,
+            "expose": {
+              "operator_id": "date_filter_op",
+              "label": "Date (commerce_order)",
+              "operator": "date_filter_op",
+              "identifier": "date_filter",
+              "remember_roles": {
+                "2": "2",
+                "1": 0,
+                "3": 0
+              }
+            },
+            "form_type": "date_popup",
+            "default_date": "-12 months",
+            "default_to_date": "now",
+            "year_range": "-4:+0",
+            "date_fields": {
+              "commerce_order.created": "commerce_order.created"
+            }
+          }
+        },
+        "path": "admin/commerce/reports/sales/weekly/export",
+        "displays": {
+          "page_1": "page_1",
+          "default": 0,
+          "page": 0,
+          "page_2": 0,
+          "page_3": 0,
+          "chart_year": 0,
+          "chart_month": 0,
+          "chart_week": 0
+        }
+      }
+    },
+    "views_data_export_4": {
+      "display_title": "Data export (Daily)",
+      "display_plugin": "views_data_export",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "pager": {
+          "type": "none",
+          "options": {
+            "offset": "0"
+          }
+        },
+        "style_plugin": "views_data_export_csv",
+        "style_options": {
+          "provide_file": 1,
+          "filename": "%view-%timestamp-full.csv",
+          "parent_sort": 1,
+          "quote": 1,
+          "trim": 1,
+          "replace_newlines": 0,
+          "header": 1,
+          "keep_html": 0
+        },
+        "defaults": {
+          "fields": false,
+          "sorts": false,
+          "filter_groups": false,
+          "filters": false
+        },
+        "fields": {
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "date_format": "custom",
+            "custom_date_format": "j F Y",
+            "format_date_sql": 1
+          },
+          "order_id": {
+            "id": "order_id",
+            "table": "commerce_order",
+            "field": "order_id",
+            "group_type": "count",
+            "label": "Number of Orders"
+          },
+          "commerce_order_total": {
+            "id": "commerce_order_total",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "sum",
+            "label": "Total Revenue",
+            "click_sort_column": "amount",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          },
+          "commerce_order_total_1": {
+            "id": "commerce_order_total_1",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "avg",
+            "label": "Average Order",
+            "click_sort_column": "amount",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          }
+        },
+        "sorts": {
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "exposed": true,
+            "expose": {
+              "label": "Created date"
+            },
+            "granularity": "day"
+          }
+        },
+        "filters": {
+          "state": {
+            "id": "state",
+            "table": "commerce_order",
+            "field": "state",
+            "value": {
+              "pending": "pending",
+              "completed": "completed"
+            },
+            "exposed": true,
+            "expose": {
+              "operator_id": "state_op",
+              "label": "Order state",
+              "operator": "state_op",
+              "identifier": "state",
+              "multiple": true
+            }
+          },
+          "date_filter": {
+            "id": "date_filter",
+            "table": "commerce_order",
+            "field": "date_filter",
+            "operator": "between",
+            "exposed": true,
+            "expose": {
+              "operator_id": "date_filter_op",
+              "label": "Date (commerce_order)",
+              "operator": "date_filter_op",
+              "identifier": "date_filter",
+              "remember_roles": {
+                "2": "2",
+                "1": 0,
+                "3": 0
+              }
+            },
+            "form_type": "date_popup",
+            "default_date": "-12 months",
+            "default_to_date": "now",
+            "year_range": "-4:+0",
+            "date_fields": {
+              "commerce_order.created": "commerce_order.created"
+            }
+          }
+        },
+        "path": "admin/commerce/reports/sales/daily/export",
+        "displays": {
+          "page_2": "page_2",
+          "default": 0,
+          "page": 0,
+          "page_1": 0,
+          "page_3": 0,
+          "chart_year": 0,
+          "chart_month": 0,
+          "chart_week": 0
+        }
+      }
+    },
+    "views_data_export_2": {
+      "display_title": "Data export (Yearly)",
+      "display_plugin": "views_data_export",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "pager": {
+          "type": "none",
+          "options": {
+            "offset": "0"
+          }
+        },
+        "style_plugin": "views_data_export_csv",
+        "style_options": {
+          "provide_file": 1,
+          "filename": "%view-%timestamp-full.csv",
+          "parent_sort": 1,
+          "quote": 1,
+          "trim": 1,
+          "replace_newlines": 0,
+          "header": 1,
+          "keep_html": 0
+        },
+        "defaults": {
+          "fields": false,
+          "sorts": false,
+          "filter_groups": false,
+          "filters": false
+        },
+        "fields": {
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "date_format": "custom",
+            "custom_date_format": "Y",
+            "format_date_sql": 1
+          },
+          "order_id": {
+            "id": "order_id",
+            "table": "commerce_order",
+            "field": "order_id",
+            "group_type": "count",
+            "label": "Number of Orders"
+          },
+          "commerce_order_total": {
+            "id": "commerce_order_total",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "sum",
+            "label": "Total Revenue",
+            "click_sort_column": "amount",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          },
+          "commerce_order_total_1": {
+            "id": "commerce_order_total_1",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "avg",
+            "label": "Average Order",
+            "click_sort_column": "amount",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          }
+        },
+        "sorts": {
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "exposed": true,
+            "expose": {
+              "label": "Created date"
+            },
+            "granularity": "year"
+          }
+        },
+        "filters": {
+          "state": {
+            "id": "state",
+            "table": "commerce_order",
+            "field": "state",
+            "value": {
+              "pending": "pending",
+              "completed": "completed"
+            },
+            "exposed": true,
+            "expose": {
+              "operator_id": "state_op",
+              "label": "Order state",
+              "operator": "state_op",
+              "identifier": "state",
+              "multiple": true
+            }
+          },
+          "date_filter": {
+            "id": "date_filter",
+            "table": "commerce_order",
+            "field": "date_filter",
+            "operator": "between",
+            "exposed": true,
+            "expose": {
+              "operator_id": "date_filter_op",
+              "label": "Date (commerce_order)",
+              "operator": "date_filter_op",
+              "identifier": "date_filter",
+              "remember_roles": {
+                "2": "2",
+                "1": 0,
+                "3": 0
+              }
+            },
+            "form_type": "date_popup",
+            "default_date": "-12 months",
+            "default_to_date": "now",
+            "year_range": "-4:+0",
+            "date_fields": {
+              "commerce_order.created": "commerce_order.created"
+            }
+          }
+        },
+        "path": "admin/commerce/reports/sales/yearly/export",
+        "displays": {
+          "page_3": "page_3",
+          "default": 0,
+          "page": 0,
+          "page_1": 0,
+          "page_2": 0,
+          "chart_year": 0,
+          "chart_month": 0,
+          "chart_week": 0
+        }
+      }
+    }
+  }
+}

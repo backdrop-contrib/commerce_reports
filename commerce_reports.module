@@ -25,6 +25,23 @@ function commerce_reports_help($path, $arg) {
 }
 
 /**
+ * Implements hook_autoload_info().
+ */
+function commerce_reports_autoload_info() {
+  return array(
+    'commerce_reports_handler_sort_date' => 'includes/views/handlers/commerce_reports_handler_sort_date.inc',
+    'CommerceReportsBaseTestCase' => 'src/Tests/CommerceReportsBaseTestCase.php',
+    'CommerceReportsCustomerTestCase' => 'src/Tests/CommerceReportsCustomerTestCase.php',
+    'CommerceReportsPaymentMethodTestCase' => 'src/Tests/CommerceReportsPaymentMethodTestCase.php',
+    'CommerceReportsProductTestCase' => 'src/Tests/CommerceReportsProductTestCase.php',
+    'CommerceReportsSalesOverviewTestCase' => 'src/Tests/CommerceReportsSalesOverviewTestCase.php',
+    'CommerceReportsSalesTestCase' => 'src/Tests/CommerceReportsSalesTestCase.php',
+    'CommerceReportsUITestCase' => 'src/Tests/CommerceReportsUITestCase.php',
+    'CommerceReportsViewsExportTestCase' => 'src/Tests/CommerceReportsViewsExportTestCase.php',
+  );
+}
+
+/**
  * Implements hook_menu().
  */
 function commerce_reports_menu() {
@@ -68,12 +85,12 @@ function commerce_reports_theme($existing, $type, $theme, $path) {
     'commerce_reports_dashboard_block' => array(
       'render element' => 'block',
       'template' => 'dashboard-block',
-      'path' => drupal_get_path('module', 'commerce_reports') . '/theme',
+      'path' => backdrop_get_path('module', 'commerce_reports') . '/theme',
     ),
     'commerce_reports_dashboard_row' => array(
       'render element' => 'row',
       'template' => 'dashboard-row',
-      'path' => drupal_get_path('module', 'commerce_reports') . '/theme',
+      'path' => backdrop_get_path('module', 'commerce_reports') . '/theme',
     ),
   );
 }
@@ -85,7 +102,7 @@ function commerce_reports_theme($existing, $type, $theme, $path) {
 function commerce_reports_menu_local_tasks_alter(&$data, $router_item, $root_path) {
   // Alter local tasks under admin/commerce/reports/sales
   if ($router_item['tab_parent'] == 'admin/commerce/reports/sales'
-    || $router_item['path'] == 'admin/commerce/reports/sales') {
+      || $router_item['path'] == 'admin/commerce/reports/sales') {
     $data['tabs'][1]['output'][] = array(
       '#theme' => 'menu_local_task',
       '#link' => array(
@@ -193,7 +210,7 @@ function commerce_reports_form_views_exposed_form_alter(&$form, &$form_state, $f
  */
 function commerce_reports_views_pre_render(&$view) {
   if (strpos($view->name, 'commerce_reports_') !== FALSE) {
-    drupal_add_css(drupal_get_path('module', 'commerce_reports') . '/theme/css/commerce-reports.css');
+    backdrop_add_css(backdrop_get_path('module', 'commerce_reports') . '/theme/css/commerce-reports.css');
   }
 }
 
@@ -214,7 +231,7 @@ function commerce_reports_permission() {
 function commerce_reports_views_api() {
   return array(
     'api' => 3,
-    'path' => drupal_get_path('module', 'commerce_reports') . '/includes/views',
+    'path' => backdrop_get_path('module', 'commerce_reports') . '/includes/views',
   );
 }
 
@@ -289,14 +306,14 @@ function commerce_reports_field_formatter_view($entity_type, $entity, $field, $i
  *    Array of order states for Views to filter on.
  */
 function commerce_reports_reportable_order_states() {
-  $cache =& drupal_static(__FUNCTION__, array());
+  $cache = &backdrop_static(__FUNCTION__, array());
 
   if (empty($cache)) {
     $report_states = array(
       'pending',
       'completed',
     );
-    drupal_alter('commerce_reports_reportable_order_states', $report_states);
+    backdrop_alter('commerce_reports_reportable_order_states', $report_states);
 
     // Validate states.
     $order_states = commerce_order_states();

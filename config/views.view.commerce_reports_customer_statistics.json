@@ -1,0 +1,126 @@
+{
+  "_config_name": "views.view.commerce_reports_customer_statistics",
+  "name": "commerce_reports_customer_statistics",
+  "description": "",
+  "tag": "commerce_reports",
+  "disabled": false,
+  "base_table": "commerce_order",
+  "human_name": "Commerce Reports Customer Statistics",
+  "core": 7,
+  "display": {
+    "default": {
+      "display_title": "Master",
+      "display_plugin": "default",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "title": "Customer Statistics",
+        "use_more_always": false,
+        "group_by": true,
+        "access": {
+          "type": "none"
+        },
+        "cache": {
+          "type": "none"
+        },
+        "exposed_form": {
+          "type": "basic"
+        },
+        "pager": {
+          "type": "none"
+        },
+        "style_plugin": "default",
+        "style_options": {
+          "row_class": "row",
+          "default_row_class": false
+        },
+        "row_plugin": "fields",
+        "relationships": {
+          "uid": {
+            "id": "uid",
+            "table": "commerce_order",
+            "field": "uid"
+          }
+        },
+        "fields": {
+          "commerce_order_total": {
+            "id": "commerce_order_total",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "sum",
+            "label": "Total Revenue",
+            "element_type": "span",
+            "element_label_type": "span",
+            "element_wrapper_type": "div",
+            "click_sort_column": "amount",
+            "type": "commerce_price_formatted_amount",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "entity_id",
+            "group_columns": {
+              "amount": "amount"
+            }
+          },
+          "commerce_order_total_1": {
+            "id": "commerce_order_total_1",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "avg",
+            "label": "Average Order",
+            "element_type": "span",
+            "element_label_type": "span",
+            "element_wrapper_type": "div",
+            "click_sort_column": "amount",
+            "type": "commerce_price_formatted_amount",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "entity_id",
+            "group_columns": {
+              "amount": "amount"
+            }
+          },
+          "uid": {
+            "id": "uid",
+            "table": "commerce_order",
+            "field": "uid",
+            "group_type": "count_distinct",
+            "label": "Customers Total"
+          }
+        },
+        "filters": {
+          "type": {
+            "id": "type",
+            "table": "commerce_order",
+            "field": "type",
+            "value": {
+              "commerce_order": "commerce_order"
+            }
+          },
+          "state": {
+            "id": "state",
+            "table": "commerce_order",
+            "field": "state",
+            "value": {
+              "pending": "pending",
+              "completed": "completed"
+            }
+          }
+        }
+      }
+    },
+    "customer_statistics": {
+      "display_title": "Customer Order Statistics",
+      "display_plugin": "block",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        }
+      }
+    }
+  }
+}

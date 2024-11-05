@@ -47,7 +47,7 @@ function commerce_reports_tax_views_data() {
   // Expose the Order ID.
   $data['commerce_reports_tax']['order_id'] = array(
     'title'        => t('Order ID', array(),
-      array('context' => 'a drupal commerce order')),
+      array('context' => 'a backdrop commerce order')),
     'help'         => t('The unique internal identifier of the order.'),
     'field'        => array(
       'handler'        => 'commerce_order_handler_field_order',
@@ -70,7 +70,7 @@ function commerce_reports_tax_views_data() {
       'base'    => 'commerce_order',
       'field'   => 'order_id',
       'label'   => t('Order', array(),
-        array('context' => 'a drupal commerce order')),
+        array('context' => 'a backdrop commerce order')),
     ),
   );
 
@@ -138,6 +138,6 @@ function commerce_reports_tax_views_data_alter(&$data) {
     'base field' => 'order_id',
     'field'      => 'order_id',
     'label'      => t('Tax', array(),
-      array('context' => 'a drupal commerce tax report')),
+      array('context' => 'a backdrop commerce tax report')),
   );
 }

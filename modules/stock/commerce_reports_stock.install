@@ -1,0 +1,18 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the commerce_reports_stock module.
+ *
+ */
+
+
+/**
+ * Migrate commerce_reports_stock variables to config.
+ */
+function commerce_reports_stock_update_1000() {
+  $config = config('commerce_reports_stock.settings');
+  $config->set('commerce_reports_stock_historyperiod', update_variable_get('commerce_reports_stock_historyperiod', '3 months ago'));
+  $config->save();
+
+  update_variable_del('commerce_reports_stock_historyperiod');
+}

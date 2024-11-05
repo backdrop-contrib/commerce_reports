@@ -1,0 +1,163 @@
+{
+  "_config_name": "views.view.commerce_reports_payment_methods",
+  "name": "commerce_reports_payment_methods",
+  "description": "View payment methods usage breakdown.",
+  "tag": "commerce_reports",
+  "disabled": false,
+  "base_table": "commerce_payment_transaction",
+  "human_name": "Payment gateway reports",
+  "core": 7,
+  "display": {
+    "default": {
+      "display_title": "Master",
+      "display_plugin": "default",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": {
+            "query_comment": false
+          }
+        },
+        "title": "Payment methods",
+        "use_more_always": false,
+        "group_by": true,
+        "access": {
+          "type": "perm",
+          "perm": "access commerce reports"
+        },
+        "cache": {
+          "type": "none"
+        },
+        "exposed_form": {
+          "type": "basic"
+        },
+        "pager": {
+          "type": "none"
+        },
+        "style_plugin": "table",
+        "style_options": {
+          "columns": {
+            "payment_method": "payment_method",
+            "transaction_id": "transaction_id",
+            "amount": "amount"
+          },
+          "default": "amount",
+          "info": {
+            "payment_method": {
+              "sortable": 0,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            },
+            "transaction_id": {
+              "sortable": 1,
+              "default_sort_order": "desc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            },
+            "amount": {
+              "sortable": 1,
+              "default_sort_order": "desc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            }
+          }
+        },
+        "relationships": {
+          "order_id": {
+            "id": "order_id",
+            "table": "commerce_payment_transaction",
+            "field": "order_id",
+            "required": true
+          }
+        },
+        "fields": {
+          "payment_method": {
+            "id": "payment_method",
+            "table": "commerce_payment_transaction",
+            "field": "payment_method"
+          },
+          "transaction_id": {
+            "id": "transaction_id",
+            "table": "commerce_payment_transaction",
+            "field": "transaction_id",
+            "group_type": "count",
+            "label": "Transactions"
+          },
+          "amount": {
+            "id": "amount",
+            "table": "commerce_payment_transaction",
+            "field": "amount",
+            "group_type": "sum",
+            "label": "Revenue",
+            "element_label_colon": false
+          }
+        },
+        "filters": {
+          "status": {
+            "id": "status",
+            "table": "commerce_payment_transaction",
+            "field": "status",
+            "value": {
+              "success": "success"
+            }
+          }
+        }
+      }
+    },
+    "page": {
+      "display_title": "Page",
+      "display_plugin": "page",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "path": "admin/commerce/reports/payment-methods",
+        "menu": {
+          "type": "tab",
+          "title": "Payment methods",
+          "description": "View breakdown of payment gateway usage.",
+          "weight": "20",
+          "name": "management",
+          "context": 0
+        }
+      }
+    },
+    "views_data_export_1": {
+      "display_title": "Data export",
+      "display_plugin": "views_data_export",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "pager": {
+          "type": "none",
+          "options": {
+            "offset": "0"
+          }
+        },
+        "style_plugin": "views_data_export_csv",
+        "style_options": {
+          "provide_file": 1,
+          "filename": "%view-%timestamp-full.csv",
+          "parent_sort": 1,
+          "quote": 1,
+          "trim": 1,
+          "replace_newlines": 0,
+          "header": 1,
+          "keep_html": 0
+        },
+        "path": "admin/commerce/reports/payment-methods",
+        "displays": {
+          "page": "page",
+          "default": 0
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "_config_name": "views.view.commerce_reports_stock",
+  "name": "commerce_reports_stock",
+  "description": "",
+  "tag": "default",
+  "disabled": false,
+  "base_table": "commerce_product",
+  "human_name": "Commerce Reports: Stock",
+  "core": 7,
+  "display": {
+    "default": {
+      "display_title": "Master",
+      "display_plugin": "default",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "title": "Commerce Reports: Stock",
+        "use_more_always": false,
+        "access": {
+          "type": "perm",
+          "perm": "access commerce reports"
+        },
+        "cache": {
+          "type": "none"
+        },
+        "exposed_form": {
+          "type": "basic"
+        },
+        "pager": {
+          "type": "none"
+        },
+        "style_plugin": "table",
+        "fields": {
+          "title": {
+            "id": "title",
+            "table": "commerce_product",
+            "field": "title",
+            "link_to_product": 0
+          },
+          "sku": {
+            "id": "sku",
+            "table": "commerce_product",
+            "field": "sku",
+            "link_to_product": 0
+          },
+          "commerce_stock": {
+            "id": "commerce_stock",
+            "table": "field_data_commerce_stock",
+            "field": "commerce_stock",
+            "settings": {
+              "thousand_separator": "",
+              "decimal_separator": ".",
+              "scale": "0",
+              "prefix_suffix": 0
+            }
+          },
+          "monthlysales": {
+            "id": "monthlysales",
+            "table": "commerce_product",
+            "field": "monthlysales"
+          },
+          "weeklysales": {
+            "id": "weeklysales",
+            "table": "commerce_product",
+            "field": "weeklysales"
+          },
+          "stocklifetime": {
+            "id": "stocklifetime",
+            "table": "commerce_product",
+            "field": "stocklifetime"
+          }
+        },
+        "sorts": {
+          "commerce_stock_value": {
+            "id": "commerce_stock_value",
+            "table": "field_data_commerce_stock",
+            "field": "commerce_stock_value",
+            "exposed": true,
+            "expose": {
+              "label": "Stock"
+            }
+          }
+        },
+        "filters": {
+          "status": {
+            "id": "status",
+            "table": "commerce_product",
+            "field": "status",
+            "value": "1"
+          },
+          "type": {
+            "id": "type",
+            "table": "commerce_product",
+            "field": "type",
+            "exposed": true,
+            "expose": {
+              "operator_id": "type_op",
+              "label": "Type",
+              "operator": "type_op",
+              "identifier": "type",
+              "remember": true,
+              "multiple": true,
+              "remember_roles": {
+                "2": "2",
+                "1": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0,
+                "6": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "page": {
+      "display_title": "Page",
+      "display_plugin": "page",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "path": "admin/commerce/reports/stock",
+        "menu": {
+          "type": "tab",
+          "title": "Stock",
+          "description": "View stock weekly and monthly sales, and projected inventory lifetime.",
+          "weight": "0",
+          "context": 0,
+          "context_only_inline": 0
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "_config_name": "views.view.commerce_reports_taxes",
+  "name": "commerce_reports_taxes",
+  "description": "",
+  "tag": "commerce_reports",
+  "disabled": false,
+  "base_table": "commerce_reports_tax",
+  "human_name": "Commerce Tax Report",
+  "core": 7,
+  "display": {
+    "default": {
+      "display_title": "Master",
+      "display_plugin": "default",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "title": "Commerce Tax Report",
+        "css_class": "commerce-reports",
+        "use_more_always": false,
+        "group_by": true,
+        "access": {
+          "type": "none"
+        },
+        "cache": {
+          "type": "none"
+        },
+        "exposed_form": {
+          "type": "basic"
+        },
+        "pager": {
+          "type": "none"
+        },
+        "style_plugin": "table",
+        "relationships": {
+          "order_id": {
+            "id": "order_id",
+            "table": "commerce_reports_tax",
+            "field": "order_id",
+            "required": true
+          }
+        },
+        "fields": {
+          "tax_rate_display_name": {
+            "id": "tax_rate_display_name",
+            "table": "commerce_reports_tax",
+            "field": "tax_rate_display_name",
+            "label": "Tax rate"
+          },
+          "order_number": {
+            "id": "order_number",
+            "table": "commerce_order",
+            "field": "order_number",
+            "relationship": "order_id",
+            "group_type": "count"
+          },
+          "taxable": {
+            "id": "taxable",
+            "table": "commerce_reports_tax",
+            "field": "taxable",
+            "group_type": "sum"
+          },
+          "taxed": {
+            "id": "taxed",
+            "table": "commerce_reports_tax",
+            "field": "taxed",
+            "group_type": "sum"
+          }
+        },
+        "filters": {
+          "state": {
+            "id": "state",
+            "table": "commerce_order",
+            "field": "state",
+            "relationship": "order_id",
+            "value": {
+              "pending": "pending",
+              "completed": "completed"
+            },
+            "exposed": true,
+            "expose": {
+              "operator_id": "state_op",
+              "label": "Order status",
+              "operator": "state_op",
+              "identifier": "state",
+              "multiple": true,
+              "remember_roles": {
+                "2": "2",
+                "1": 0
+              }
+            }
+          },
+          "date_filter": {
+            "id": "date_filter",
+            "table": "commerce_order",
+            "field": "date_filter",
+            "relationship": "order_id",
+            "operator": "between",
+            "exposed": true,
+            "expose": {
+              "operator_id": "date_filter_op",
+              "label": "Date",
+              "operator": "date_filter_op",
+              "identifier": "date_filter",
+              "remember_roles": {
+                "2": "2",
+                "1": 0
+              }
+            },
+            "form_type": "date_popup",
+            "default_date": "-1 year",
+            "default_to_date": "now",
+            "year_range": "-10:+1",
+            "date_fields": {
+              "commerce_order.created": "commerce_order.created"
+            }
+          }
+        }
+      }
+    },
+    "page": {
+      "display_title": "Page",
+      "display_plugin": "page",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "path": "admin/commerce/reports/tax",
+        "menu": {
+          "type": "tab",
+          "title": "Taxes",
+          "weight": "0",
+          "context": 0,
+          "context_only_inline": 0
+        }
+      }
+    }
+  }
+}

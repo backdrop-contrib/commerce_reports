@@ -4,17 +4,9 @@
  * Default views.
  */
 
-// This module uses so many Views they've been split up.
-// @link: https://www.drupal.org/node/2333949
-include 'commerce_reports.views_default.customers.inc';
-include 'commerce_reports.views_default.payment_methods.inc';
-include 'commerce_reports.views_default.products.inc';
-include 'commerce_reports.views_default.sales.inc';
-
 /**
  * Views for commerce orders for report displays.
  */
-
 function commerce_reports_data_export($view) {
   if (empty($view->display['page']) || empty($view->display['page']->display_options['path'])) {
     return;
@@ -36,17 +28,3 @@ function commerce_reports_data_export($view) {
   );
 }
 
-/**
- * Implements hook_views_default_views().
- */
-function commerce_reports_views_default_views() {
-  $views = array();
-
-  // @todo: Simpler way to do this?
-  $views = array_merge($views, _commerce_reports_views_default_products_views());
-  $views = array_merge($views, _commerce_reports_views_default_customer_views());
-  $views = array_merge($views, _commerce_reports_views_default_payment_method_views());
-  $views = array_merge($views, _commerce_reports_views_default_sales_views());
-
-  return $views;
-}

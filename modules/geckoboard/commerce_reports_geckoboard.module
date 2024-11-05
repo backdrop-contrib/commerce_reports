@@ -201,7 +201,7 @@ function commerce_reports_geckoboard_revenue_monthly() {
        AND status='success'
        AND created > :created
      GROUP BY yyyymm",
-      array(':created' => REQUEST_TIME - 3600*24*28*2) // Two months to be safe
+      array(':created' => REQUEST_TIME - 3600 * 24 * 28 * 2) // Two months to be safe
     );
 
   $thismonth = date('Y-m');
@@ -219,7 +219,7 @@ function commerce_reports_geckoboard_revenue_monthly() {
 
   // Quick and dirty projection
   $hoursthismonth = (time() - mktime(0, 0, 0, date('n'), 1)) / 60 / 60; // Number of hours that have passed this month
-  $hoursremaining = (mktime(0, 0, 0, date('n')+1, 1) - time()) / 60 / 60;
+  $hoursremaining = (mktime(0, 0, 0, date('n') + 1, 1) - time()) / 60 / 60;
   $projected_raw = $data[$thismonth]->sum + $data[$thismonth]->sum / $hoursthismonth * $hoursremaining;
 
   // Change our units from $.01 to $1000
@@ -280,8 +280,8 @@ function commerce_reports_geckoboard_revenue_monthly() {
 function commerce_reports_geckoboard_order_processing_rag() {
   $periods = array(
     REQUEST_TIME - 86400  => REQUEST_TIME,
-    REQUEST_TIME - 86400*2  => REQUEST_TIME - 86400,
-    0 => REQUEST_TIME - 86400*2,
+    REQUEST_TIME - 86400 * 2  => REQUEST_TIME - 86400,
+    0 => REQUEST_TIME - 86400 * 2,
   );
   $stats = array();
   foreach ($periods as $start => $end) {

@@ -2,6 +2,8 @@
 /**
  * @file
  * Dashboard for reporting module.
+ *
+ * @todo convert to a layout.
  */
 
 define('COMMERCE_REPORTS_DASHBOARD_BLOCK', 1);
@@ -31,11 +33,11 @@ function commerce_reports_dashboard_block_width($items = array()) {
  * Renders the dashboard.
  */
 function commerce_reports_dashboard() {
-  drupal_add_js(drupal_get_path('module', 'commerce_reports') . '/theme/js/dashboard.js', 'file');
-  drupal_add_css(drupal_get_path('module', 'commerce_reports') . '/theme/css/commerce_reports_dashboard.css');
+  backdrop_add_js(backdrop_get_path('module', 'commerce_reports') . '/theme/js/dashboard.js', 'file');
+  backdrop_add_css(backdrop_get_path('module', 'commerce_reports') . '/theme/css/commerce_reports_dashboard.css');
 
   $info = module_invoke_all('commerce_reports_dashboard');
-  drupal_alter('commerce_reports_dashboard', $info);
+  backdrop_alter('commerce_reports_dashboard', $info);
 
   $weights = array();
   foreach ($info as $block) {
@@ -97,7 +99,7 @@ function commerce_reports_dashboard_block($name, $options = array()) {
     '#theme_wrappers' => array('commerce_reports_dashboard_block'),
     '#title' => $options['title'],
     '#name' => $name,
-    '#report' => !empty($options['report']) ? l($options['report']['title'], $options['report']['path']) : NULL,
+    '#report' => !empty($options['report'])?l($options['report']['title'], $options['report']['path']) : NULL,
     '#width' => !empty($options['type']) ? $options['type'] : COMMERCE_REPORTS_DASHBOARD_BLOCK,
   );
 

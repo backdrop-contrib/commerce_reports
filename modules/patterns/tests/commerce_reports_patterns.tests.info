@@ -1,0 +1,6 @@
+[CommerceReportsPatternsTestCase]
+name = Reports patterns
+description = Test association rule mining implementation.
+group = Backdrop Commerce
+file = tests/commerce_reports_patterns.test
+

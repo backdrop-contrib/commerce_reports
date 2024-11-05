@@ -1,0 +1,148 @@
+{
+  "_config_name": "views.view.product_individual_report",
+  "name": "product_individual_report",
+  "description": "",
+  "tag": "commerce_reports",
+  "disabled": false,
+  "base_table": "commerce_line_item",
+  "human_name": "Product individual report",
+  "core": 7,
+  "display": {
+    "default": {
+      "display_title": "Master",
+      "display_plugin": "default",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "title": "Product individual report",
+        "use_more_always": false,
+        "group_by": true,
+        "access": {
+          "type": "perm",
+          "perm": "access commerce reports"
+        },
+        "cache": {
+          "type": "none"
+        },
+        "exposed_form": {
+          "type": "basic"
+        },
+        "pager": {
+          "type": "full",
+          "options": {
+            "items_per_page": "20",
+            "offset": "0",
+            "id": "0",
+            "quantity": "9"
+          }
+        },
+        "style_plugin": "table",
+        "relationships": {
+          "order_id": {
+            "id": "order_id",
+            "table": "commerce_line_item",
+            "field": "order_id",
+            "required": true
+          },
+          "commerce_product_product_id": {
+            "id": "commerce_product_product_id",
+            "table": "field_data_commerce_product",
+            "field": "commerce_product_product_id",
+            "required": true
+          }
+        },
+        "fields": {
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "relationship": "order_id",
+            "label": "Order date",
+            "date_format": "custom",
+            "custom_date_format": "F Y",
+            "second_date_format": "long",
+            "format_date_sql": 1
+          },
+          "quantity": {
+            "id": "quantity",
+            "table": "commerce_line_item",
+            "field": "quantity",
+            "group_type": "sum",
+            "label": "Sold",
+            "precision": "0"
+          },
+          "commerce_total": {
+            "id": "commerce_total",
+            "table": "field_data_commerce_total",
+            "field": "commerce_total",
+            "group_type": "sum",
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          }
+        },
+        "sorts": {
+          "created": {
+            "id": "created",
+            "table": "commerce_line_item",
+            "field": "created",
+            "exposed": true,
+            "expose": {
+              "label": "Order date"
+            },
+            "granularity": "month"
+          }
+        },
+        "arguments": {
+          "product_id": {
+            "id": "product_id",
+            "table": "commerce_product",
+            "field": "product_id",
+            "relationship": "commerce_product_product_id",
+            "default_action": "access denied",
+            "default_argument_type": "fixed",
+            "summary": {
+              "number_of_records": "0",
+              "format": "default_summary"
+            },
+            "summary_options": {
+              "items_per_page": "25"
+            }
+          }
+        },
+        "filters": {
+          "type": {
+            "id": "type",
+            "table": "commerce_line_item",
+            "field": "type",
+            "value": {
+              "product": "product"
+            }
+          }
+        }
+      }
+    },
+    "page": {
+      "display_title": "Page",
+      "display_plugin": "page",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "path": "admin/commerce/products/%/reports",
+        "menu": {
+          "type": "tab",
+          "title": "Reports",
+          "weight": "0",
+          "name": "management",
+          "context": 0,
+          "context_only_inline": 0
+        }
+      }
+    }
+  }
+}

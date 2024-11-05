@@ -51,39 +51,22 @@ function commerce_reports_tax_schema() {
 }
 
 /**
- * Implements hook_uninstall().
+ * Implements hook_update_last_removed().
  */
-function commerce_reports_tax_uninstall() {
-  variable_del('commerce_reports_tax_order_generate_statuses');
-  variable_del('commerce_reports_tax_order_statuses');
-  variable_del('commerce_reports_tax_batch_finished');
+function commerce_reports_tax_update_last_removed() {
+  return 7401;
 }
 
 /**
- * Changes to the database structure.
+ * Migrate commerce_reports_tax variables to config.
  */
-function commerce_reports_tax_update_7300(&$sandbox) {
-  // Delete all tables that existed in the alpha4 release.
-  $previous_tables = array(
-    'commerce_reports_tax',
-    'commerce_reports_tax_rate_orders',
-    'commerce_reports_tax_rate_aggregate',
-    'commerce_reports_tax_rate',
-  );
+function commerce_reports_tax_update_1000() {
+  $config = config('commerce_reports_tax.settings');
+  $config->set('commerce_reports_tax_order_statuses', update_variable_get('commerce_reports_tax_order_statuses', array('pending', 'processing', 'completed')));
+  $config->set('commerce_reports_tax_order_generate_statuses', update_variable_get('commerce_reports_tax_order_generate_statuses', array('pending', 'completed')));
+  $config->save();
 
-  foreach ($previous_tables as $table) {
-    if (db_table_exists($table)) {
-      db_drop_table($table);
-    }
-  }
-
-  // Install the new database schema.
-  drupal_install_schema('commerce_reports_tax');
-}
-
-/**
- * Recommendation that users regenerate all tax information.
- */
-function commerce_reports_tax_update_7401(&$sandbox) {
-  drupal_set_message(t('This Commerce Tax Reporting update fixed a bug that sometimes rounded cents incorrectly in tax reports. It is highly recommended that you manually <a href="/admin/commerce/config/tax-reports">regenerate all tax information</a>.'), 'warning');
+  update_variable_del('commerce_reports_tax_order_statuses');
+  update_variable_del('commerce_reports_tax_order_generate_statuses');
+  update_variable_del('commerce_reports_tax_batch_finished');
 }

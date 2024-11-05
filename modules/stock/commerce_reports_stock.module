@@ -2,7 +2,7 @@
 
 /**
  * @file
- * This module provides advanced stock reporting for Drupal Commerce.
+ * This module provides advanced stock reporting for Backdrop Commerce.
  */
 
 /**
@@ -11,7 +11,21 @@
 function commerce_reports_stock_views_api() {
   return array(
     'api' => 3,
-    'path' => drupal_get_path('module', 'commerce_reports_stock') . '/includes/views',
+    'path' => backdrop_get_path('module', 'commerce_reports_stock') . '/includes/views',
+  );
+}
+
+/**
+ * Implements hook_autoload_info().
+ */
+function commerce_reports_stock_autoload_info() {
+  return array(
+    'commerce_reports_stock_handler_field_monthlysales' => 'includes/views/handlers/commerce_reports_stock_handler_field_monthlysales.inc',
+    'commerce_reports_stock_handler_field_stocklifetime' => 'includes/views/handlers/commerce_reports_stock_handler_field_stocklifetime.inc',
+    'commerce_reports_stock_handler_field_weeklysales' => 'includes/views/handlers/commerce_reports_stock_handler_field_weeklysales.inc',
+    'commerce_reports_stock_handler_sort_monthlysales' => 'includes/views/handlers/commerce_reports_stock_handler_sort_monthlysales.inc',
+    'commerce_reports_stock_handler_sort_stocklifetime' => 'includes/views/handlers/commerce_reports_stock_handler_sort_stocklifetime.inc',
+    'commerce_reports_stock_handler_sort_weeklysales' => 'includes/views/handlers/commerce_reports_stock_handler_sort_weeklysales.inc',
   );
 }
 
@@ -25,6 +39,17 @@ function commerce_reports_stock_views_pre_execute(&$view) {
   }
 }
 
+
+/**
+ * Implements hook_config_info().
+ */
+function commerce_reports_stock_config_info() {
+  $prefixes['commerce_reports_stock.settings'] = array(
+    'label' => t('Reports settings'),
+    'group' => t('Configuration'),
+  );
+  return $prefixes;
+}
 
 /**
  * Calculate all the stock reports data.
@@ -45,13 +70,14 @@ function commerce_reports_stock_views_pre_execute(&$view) {
  *    Returns an array of data, or string if $key was set.
  */
 function _commerce_reports_stock_calculate_dataset($sku = NULL, $key = NULL, $reset = FALSE) {
-  $data = &drupal_static(__FUNCTION__);
+  $config = config('commerce_reports_stock.settings');
+  $data = &backdrop_static(__FUNCTION__);
 
   // If there is no static cache for dataset yet or a reset was specified...
   if (!isset($data) || $reset) {
     $products = _commerce_reports_stock_get_stock_enabled_products();
 
-    $start = variable_get('commerce_reports_stock_historyperiod', '3 months ago');
+    $start = $config->get('commerce_reports_stock_historyperiod');
     $start = strtotime($start);
     $weekly_sales = _commerce_reports_stock_api_sales('W', $start);
     $monthly_sales = _commerce_reports_stock_api_sales('M', $start);
@@ -62,7 +88,7 @@ function _commerce_reports_stock_calculate_dataset($sku = NULL, $key = NULL, $re
 
     // Go through each product and make calculations.
     foreach ($products as $product) {
-      /** @var EntityDrupalWrapper $product_wrapper */
+      /** @var EntityBackdropWrapper $product_wrapper */
       $product_wrapper = entity_metadata_wrapper('commerce_product', $product);
 
       $sku = (string) $product_wrapper->sku->value();
@@ -83,7 +109,7 @@ function _commerce_reports_stock_calculate_dataset($sku = NULL, $key = NULL, $re
         $start_datetime->setTimestamp($product_wrapper->created->value());
       }
       else {
-        $start_datetime = new DateTime(variable_get('commerce_reports_stock_historyperiod', '3 months ago'));
+        $start_datetime = new DateTime($config->get('commerce_reports_stock_historyperiod'));
       }
 
       $number_of_weeks = max($now->diff($start_datetime)->days / 7, 1);
@@ -116,26 +142,30 @@ function _commerce_reports_stock_calculate_dataset($sku = NULL, $key = NULL, $re
   }
 
   // Check to see if we should return specific data, or whole array.
-  if($key !== NULL && $sku !== NULL){
-    if(isset($data[$sku]) && isset($data[$sku][$key])){
+  if ($key !== NULL && $sku !== NULL) {
+    if (isset($data[$sku]) && isset($data[$sku][$key])) {
       return $data[$sku][$key];
-    } else {
+    }
+    else {
       return $key == 'lifetime' ? 1000 : 0;
     }
     // If we have a key return that, else the whole sku entry.
-  } elseif( $sku !== NULL ) {
-    if(isset($data[$sku])){
+  }
+  elseif ( $sku !== NULL ) {
+    if (isset($data[$sku])) {
       return $data[$sku];
-    } else {
+    }
+    else {
       return array(
           'sku' => $sku,
           'stock' => $stock,
           'weeklysales' => 0,
           'monthlysales' => 0,
-          'lifetime' => 1000 ,
+          'lifetime' => 1000,
       );
     }
-  } else {
+  }
+  else {
     return $data;
   }
 
@@ -187,7 +217,7 @@ function _commerce_reports_stock_calculate_average_sales(array $sales, $period) 
  *    Array of products, keyed by SKU.
  */
 function _commerce_reports_stock_get_stock_enabled_products($reset = FALSE) {
-  $product_list = &drupal_static(__FUNCTION__);
+  $product_list = &backdrop_static(__FUNCTION__);
 
   // If there is no static cache for dataset yet or a reset was specified...
   if (!isset($product_list) || $reset) {
@@ -257,3 +287,4 @@ function _commerce_reports_stock_api_sales($interval = 'D', $start = 0) {
 
   return $data;
 }
+

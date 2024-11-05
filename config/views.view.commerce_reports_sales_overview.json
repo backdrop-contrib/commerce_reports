@@ -1,0 +1,278 @@
+{
+  "_config_name": "views.view.commerce_reports_sales_overview",
+  "name": "commerce_reports_sales_overview",
+  "description": "",
+  "tag": "commerce_reports",
+  "disabled": false,
+  "base_table": "commerce_order",
+  "human_name": "Sales reports overview",
+  "core": 7,
+  "display": {
+    "default": {
+      "display_title": "Master",
+      "display_plugin": "default",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": {
+            "query_comment": false
+          }
+        },
+        "use_more_always": false,
+        "group_by": true,
+        "access": {
+          "type": "none"
+        },
+        "cache": {
+          "type": "none"
+        },
+        "exposed_form": {
+          "type": "basic"
+        },
+        "pager": {
+          "type": "none",
+          "options": {
+            "offset": "0"
+          }
+        },
+        "style_plugin": "table",
+        "style_options": {
+          "columns": {
+            "order_id": "order_id",
+            "commerce_order_total": "commerce_order_total",
+            "commerce_order_total_1": "commerce_order_total_1"
+          },
+          "default": "-1",
+          "info": {
+            "order_id": {
+              "sortable": 0,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            },
+            "commerce_order_total": {
+              "sortable": 0,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            },
+            "commerce_order_total_1": {
+              "sortable": 0,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            }
+          },
+          "empty_table": true
+        },
+        "empty": {
+          "area": {
+            "id": "area",
+            "table": "views",
+            "field": "area",
+            "label": "Empty text",
+            "empty": true,
+            "content": "No orders.",
+            "format": "plain_text"
+          }
+        },
+        "fields": {
+          "order_id": {
+            "id": "order_id",
+            "table": "commerce_order",
+            "field": "order_id",
+            "group_type": "count",
+            "label": "Sales",
+            "element_label_colon": false,
+            "empty": "None",
+            "empty_zero": true
+          },
+          "commerce_order_total": {
+            "id": "commerce_order_total",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "sum",
+            "label": "Gross",
+            "element_label_colon": false,
+            "empty": "None",
+            "empty_zero": true,
+            "click_sort_column": "amount",
+            "type": "commerce_price_formatted_amount",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          },
+          "commerce_order_total_1": {
+            "id": "commerce_order_total_1",
+            "table": "field_data_commerce_order_total",
+            "field": "commerce_order_total",
+            "group_type": "avg",
+            "label": "Average",
+            "element_label_colon": false,
+            "empty": "None",
+            "empty_zero": true,
+            "click_sort_column": "amount",
+            "type": "commerce_price_formatted_amount",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          }
+        },
+        "filters": {
+          "state": {
+            "id": "state",
+            "table": "commerce_order",
+            "field": "state",
+            "value": {
+              "pending": "pending",
+              "completed": "completed"
+            }
+          }
+        }
+      }
+    },
+    "today": {
+      "display_title": "Today",
+      "display_plugin": "block",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "defaults": {
+          "title": false,
+          "hide_admin_links": false,
+          "filter_groups": false,
+          "filters": false
+        },
+        "title": "Today",
+        "filters": {
+          "state": {
+            "id": "state",
+            "table": "commerce_order",
+            "field": "state",
+            "value": {
+              "pending": "pending",
+              "completed": "completed"
+            }
+          },
+          "date_filter": {
+            "id": "date_filter",
+            "table": "commerce_order",
+            "field": "date_filter",
+            "operator": ">",
+            "expose": {
+              "operator_id": "date_filter_op",
+              "label": "Date (commerce_order)",
+              "operator": "date_filter_op",
+              "identifier": "date_filter"
+            },
+            "granularity": "second",
+            "default_date": "today",
+            "date_fields": {
+              "commerce_order.created": "commerce_order.created"
+            }
+          }
+        },
+        "block_description": "Sales Reports: Overview (Today)"
+      }
+    },
+    "yesterday": {
+      "display_title": "Yesterday",
+      "display_plugin": "block",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "defaults": {
+          "title": false,
+          "hide_admin_links": false,
+          "filter_groups": false,
+          "filters": false
+        },
+        "title": "Yesterday",
+        "filters": {
+          "state": {
+            "id": "state",
+            "table": "commerce_order",
+            "field": "state",
+            "value": {
+              "pending": "pending",
+              "completed": "completed"
+            }
+          },
+          "date_filter": {
+            "id": "date_filter",
+            "table": "commerce_order",
+            "field": "date_filter",
+            "operator": "between",
+            "expose": {
+              "operator_id": "date_filter_op",
+              "label": "Date (commerce_order)",
+              "operator": "date_filter_op",
+              "identifier": "date_filter"
+            },
+            "granularity": "second",
+            "default_date": "yesterday",
+            "default_to_date": "today",
+            "date_fields": {
+              "commerce_order.created": "commerce_order.created"
+            }
+          }
+        },
+        "block_description": "Sales Reports: Overview (Yesterday)"
+      }
+    },
+    "month": {
+      "display_title": "Month",
+      "display_plugin": "block",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "defaults": {
+          "title": false,
+          "hide_admin_links": false,
+          "filter_groups": false,
+          "filters": false
+        },
+        "title": "Month-to-date",
+        "filters": {
+          "state": {
+            "id": "state",
+            "table": "commerce_order",
+            "field": "state",
+            "value": {
+              "pending": "pending",
+              "completed": "completed"
+            }
+          },
+          "created": {
+            "id": "created",
+            "table": "commerce_order",
+            "field": "created",
+            "operator": ">=",
+            "value": {
+              "value": "-30 day",
+              "type": "offset"
+            }
+          }
+        },
+        "block_description": "Sales Reports: Overview (Month)"
+      }
+    }
+  }
+}

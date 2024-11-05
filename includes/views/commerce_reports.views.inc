@@ -10,7 +10,7 @@
 function commerce_reports_views_handlers() {
   return array(
     'info' => array(
-      'path' => drupal_get_path('module', 'commerce_reports') . '/includes/views/handlers',
+      'path' => backdrop_get_path('module', 'commerce_reports') . '/includes/views/handlers',
     ),
     'handlers' => array(
       'commerce_reports_handler_sort_date' => array(

@@ -1,0 +1,573 @@
+{
+  "_config_name": "views.view.commerce_reports_products",
+  "name": "commerce_reports_products",
+  "description": "",
+  "tag": "commerce_reports",
+  "disabled": false,
+  "base_table": "commerce_line_item",
+  "human_name": "Product reports",
+  "core": 7,
+  "display": {
+    "default": {
+      "display_title": "Master",
+      "display_plugin": "default",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": {
+            "query_comment": false
+          }
+        },
+        "title": "Product reports",
+        "use_more_always": false,
+        "group_by": true,
+        "access": {
+          "type": "perm",
+          "perm": "access commerce reports"
+        },
+        "cache": {
+          "type": "none"
+        },
+        "exposed_form": {
+          "type": "basic"
+        },
+        "pager": {
+          "type": "full",
+          "options": {
+            "items_per_page": "25"
+          }
+        },
+        "style_plugin": "table",
+        "style_options": {
+          "columns": {
+            "sku": "sku",
+            "title": "title",
+            "quantity": "quantity",
+            "commerce_total": "commerce_total"
+          },
+          "default": "commerce_total",
+          "info": {
+            "sku": {
+              "sortable": 1,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            },
+            "title": {
+              "sortable": 1,
+              "default_sort_order": "asc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            },
+            "quantity": {
+              "sortable": 1,
+              "default_sort_order": "desc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            },
+            "commerce_total": {
+              "sortable": 1,
+              "default_sort_order": "desc",
+              "align": "",
+              "separator": "",
+              "empty_column": 0
+            }
+          }
+        },
+        "relationships": {
+          "order_id": {
+            "id": "order_id",
+            "table": "commerce_line_item",
+            "field": "order_id",
+            "required": true
+          },
+          "commerce_product_product_id": {
+            "id": "commerce_product_product_id",
+            "table": "field_data_commerce_product",
+            "field": "commerce_product_product_id",
+            "required": true
+          }
+        },
+        "fields": {
+          "type": {
+            "id": "type",
+            "table": "commerce_product",
+            "field": "type",
+            "relationship": "commerce_product_product_id",
+            "link_to_product": 0,
+            "use_raw_value": 0
+          },
+          "sku": {
+            "id": "sku",
+            "table": "commerce_product",
+            "field": "sku",
+            "relationship": "commerce_product_product_id",
+            "label": "Product",
+            "element_label_colon": false,
+            "link_to_product": 1
+          },
+          "title": {
+            "id": "title",
+            "table": "commerce_product",
+            "field": "title",
+            "relationship": "commerce_product_product_id",
+            "element_label_colon": false,
+            "link_to_product": 0
+          },
+          "quantity": {
+            "id": "quantity",
+            "table": "commerce_line_item",
+            "field": "quantity",
+            "group_type": "sum",
+            "label": "Sold",
+            "element_label_colon": false,
+            "precision": "0"
+          },
+          "commerce_total": {
+            "id": "commerce_total",
+            "table": "field_data_commerce_total",
+            "field": "commerce_total",
+            "group_type": "sum",
+            "label": "Revenue",
+            "element_label_colon": false,
+            "click_sort_column": "amount",
+            "type": "commerce_price_formatted_amount",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          }
+        },
+        "sorts": {
+          "line_item_id": {
+            "id": "line_item_id",
+            "table": "commerce_line_item",
+            "field": "line_item_id",
+            "group_type": "count",
+            "order": "DESC"
+          }
+        },
+        "filters": {
+          "type": {
+            "id": "type",
+            "table": "commerce_line_item",
+            "field": "type",
+            "value": {
+              "product": "product"
+            }
+          },
+          "state": {
+            "id": "state",
+            "table": "commerce_order",
+            "field": "state",
+            "relationship": "order_id",
+            "value": {
+              "pending": "pending",
+              "completed": "completed"
+            }
+          }
+        }
+      }
+    },
+    "page": {
+      "display_title": "Page",
+      "display_plugin": "page",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "defaults": {
+          "css_class": false,
+          "header": false,
+          "filter_groups": false,
+          "filters": false
+        },
+        "css_class": "commerce-reports",
+        "filters": {
+          "type": {
+            "id": "type",
+            "table": "commerce_line_item",
+            "field": "type",
+            "value": {
+              "product": "product"
+            }
+          },
+          "state": {
+            "id": "state",
+            "table": "commerce_order",
+            "field": "state",
+            "relationship": "order_id",
+            "value": {
+              "pending": "pending",
+              "completed": "completed"
+            }
+          },
+          "sku": {
+            "id": "sku",
+            "table": "commerce_product",
+            "field": "sku",
+            "relationship": "commerce_product_product_id",
+            "operator": "word",
+            "exposed": true,
+            "expose": {
+              "operator_id": "sku_op",
+              "label": "Search products (SKU)",
+              "operator": "sku_op",
+              "identifier": "sku"
+            }
+          },
+          "date_filter": {
+            "id": "date_filter",
+            "table": "commerce_order",
+            "field": "date_filter",
+            "relationship": "order_id",
+            "operator": "between",
+            "exposed": true,
+            "expose": {
+              "operator_id": "date_filter_op",
+              "operator": "date_filter_op",
+              "identifier": "date_filter",
+              "remember_roles": {
+                "2": "2",
+                "1": 0
+              }
+            },
+            "form_type": "date_popup",
+            "default_date": "-1 year",
+            "default_to_date": "now",
+            "year_range": "-3:+0",
+            "date_fields": {
+              "commerce_order.created": "commerce_order.created"
+            }
+          }
+        },
+        "path": "admin/commerce/reports/products",
+        "menu": {
+          "type": "tab",
+          "title": "Products",
+          "description": "View product reports.",
+          "weight": "0",
+          "name": "management",
+          "context": 0
+        }
+      }
+    },
+    "chart_revenue": {
+      "display_title": "Chart (by revenue)",
+      "display_plugin": "block",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "defaults": {
+          "pager": false,
+          "style_plugin": false,
+          "style_options": false,
+          "fields": false,
+          "sorts": false
+        },
+        "pager": {
+          "type": "some",
+          "options": {
+            "items_per_page": "5",
+            "offset": "0"
+          }
+        },
+        "style_plugin": "chart",
+        "style_options": {
+          "xaxis_title": "Sold",
+          "yaxis_title": "Revenue",
+          "type": "bar",
+          "library": "google",
+          "label_field": "title",
+          "data_fields": {
+            "title": "title",
+            "commerce_total": "commerce_total",
+            "sku": 0,
+            "quantity": 0
+          },
+          "field_colors": {
+            "sku": "#2f7ed8",
+            "title": "#0d233a",
+            "quantity": "#8bbc21",
+            "commerce_total": "#005f91"
+          },
+          "legend_position": "bottom",
+          "width": "",
+          "height": "",
+          "xaxis_labels_rotation": "0",
+          "yaxis_labels_rotation": "0"
+        },
+        "fields": {
+          "sku": {
+            "id": "sku",
+            "table": "commerce_product",
+            "field": "sku",
+            "relationship": "commerce_product_product_id",
+            "label": "Product",
+            "element_label_colon": false,
+            "empty": "0",
+            "link_to_product": 1
+          },
+          "title": {
+            "id": "title",
+            "table": "commerce_product",
+            "field": "title",
+            "relationship": "commerce_product_product_id",
+            "element_label_colon": false,
+            "empty": "0",
+            "link_to_product": 0
+          },
+          "quantity": {
+            "id": "quantity",
+            "table": "commerce_line_item",
+            "field": "quantity",
+            "group_type": "sum",
+            "label": "Sold",
+            "element_label_colon": false,
+            "empty": "0",
+            "precision": "0"
+          },
+          "commerce_total": {
+            "id": "commerce_total",
+            "table": "field_data_commerce_total",
+            "field": "commerce_total",
+            "group_type": "sum",
+            "label": "Revenue",
+            "element_label_colon": false,
+            "empty": "0",
+            "click_sort_column": "amount",
+            "type": "commerce_reports_visualization",
+            "settings": {
+              "calculation": false
+            },
+            "group_column": "amount",
+            "group_columns": {
+              "currency_code": "currency_code"
+            }
+          }
+        },
+        "sorts": {
+          "commerce_total_amount": {
+            "id": "commerce_total_amount",
+            "table": "field_data_commerce_total",
+            "field": "commerce_total_amount",
+            "group_type": "sum",
+            "order": "DESC"
+          }
+        }
+      }
+    },
+    "chart_quantity": {
+      "display_title": "Chart (by quantity sold)",
+      "display_plugin": "block",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "defaults": {
+          "pager": false,
+          "style_plugin": false,
+          "style_options": false,
+          "fields": false,
+          "sorts": false
+        },
+        "pager": {
+          "type": "some",
+          "options": {
+            "items_per_page": "5",
+            "offset": "0"
+          }
+        },
+        "style_plugin": "chart",
+        "style_options": {
+          "type": "bar",
+          "library": "google",
+          "legend_position": "bottom",
+          "yaxis_title": "Sold",
+          "label_field": "title",
+          "data_fields": {
+            "title": "title",
+            "quantity": "quantity",
+            "sku": 0,
+            "commerce_total": 0
+          },
+          "field_colors": {
+            "sku": "#2f7ed8",
+            "title": "#0d233a",
+            "quantity": "#8bbc21",
+            "commerce_total": "#910000"
+          },
+          "width": "",
+          "height": "",
+          "xaxis_labels_rotation": "0",
+          "yaxis_labels_rotation": "0"
+        },
+        "fields": {
+          "sku": {
+            "id": "sku",
+            "table": "commerce_product",
+            "field": "sku",
+            "relationship": "commerce_product_product_id",
+            "label": "Product",
+            "element_label_colon": false,
+            "empty": "0",
+            "link_to_product": 1
+          },
+          "title": {
+            "id": "title",
+            "table": "commerce_product",
+            "field": "title",
+            "relationship": "commerce_product_product_id",
+            "element_label_colon": false,
+            "empty": "0",
+            "link_to_product": 0
+          },
+          "quantity": {
+            "id": "quantity",
+            "table": "commerce_line_item",
+            "field": "quantity",
+            "group_type": "sum",
+            "label": "Sold",
+            "element_label_colon": false,
+            "empty": "0",
+            "precision": "0"
+          }
+        },
+        "sorts": {
+          "quantity": {
+            "id": "quantity",
+            "table": "commerce_line_item",
+            "field": "quantity",
+            "group_type": "sum",
+            "order": "DESC"
+          }
+        }
+      }
+    },
+    "views_data_export_1": {
+      "display_title": "Data export",
+      "display_plugin": "views_data_export",
+      "display_options": {
+        "query": {
+          "type": "views_query",
+          "options": []
+        },
+        "pager": {
+          "type": "none",
+          "options": {
+            "offset": "0"
+          }
+        },
+        "style_plugin": "views_data_export_csv",
+        "style_options": {
+          "provide_file": 1,
+          "filename": "%view-%timestamp-full.csv",
+          "parent_sort": 1,
+          "quote": 1,
+          "trim": 1,
+          "replace_newlines": 0,
+          "header": 1,
+          "keep_html": 0
+        },
+        "defaults": {
+          "filter_groups": false,
+          "filters": false
+        },
+        "filters": {
+          "type": {
+            "id": "type",
+            "table": "commerce_line_item",
+            "field": "type",
+            "value": {
+              "product": "product"
+            }
+          },
+          "state": {
+            "id": "state",
+            "table": "commerce_order",
+            "field": "state",
+            "relationship": "order_id",
+            "value": {
+              "pending": "pending",
+              "completed": "completed"
+            },
+            "expose": {
+              "operator_id": "state_op",
+              "label": "Order state",
+              "operator": "state_op",
+              "identifier": "state",
+              "remember_roles": {
+                "2": "2",
+                "1": 0,
+                "3": 0
+              }
+            }
+          },
+          "sku": {
+            "id": "sku",
+            "table": "commerce_product",
+            "field": "sku",
+            "relationship": "commerce_product_product_id",
+            "operator": "contains",
+            "exposed": true,
+            "expose": {
+              "operator_id": "sku_op",
+              "label": "SKU",
+              "operator": "sku_op",
+              "identifier": "sku",
+              "remember_roles": {
+                "2": "2",
+                "1": 0,
+                "3": 0
+              }
+            }
+          },
+          "date_filter": {
+            "id": "date_filter",
+            "table": "commerce_order",
+            "field": "date_filter",
+            "relationship": "order_id",
+            "operator": "between",
+            "exposed": true,
+            "expose": {
+              "operator_id": "date_filter_op",
+              "label": "Date (commerce_order)",
+              "operator": "date_filter_op",
+              "identifier": "date_filter",
+              "remember_roles": {
+                "2": "2",
+                "1": 0,
+                "3": 0
+              }
+            },
+            "form_type": "date_popup",
+            "default_date": "-1 year",
+            "default_to_date": "now",
+            "year_range": "-3:+0",
+            "date_fields": {
+              "commerce_order.created": "commerce_order.created"
+            }
+          }
+        },
+        "path": "admin/commerce/reports/products/export",
+        "displays": {
+          "page": "page",
+          "default": 0,
+          "chart_revenue": 0,
+          "chart_quantity": 0
+        },
+        "segment_size": "100"
+      }
+    }
+  }
+}

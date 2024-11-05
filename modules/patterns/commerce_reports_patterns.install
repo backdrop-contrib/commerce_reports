@@ -3,13 +3,13 @@
  * @file
  * Install, update, and uninstall functions for the commerce_reports_patterns module.
  */
- 
+
 /**
- * Implementation of hook_schema().
+ * Implements hook_schema().
  */
 function commerce_reports_patterns_schema() {
   $schema = array();
-  
+
   $schema['commerce_reports_patterns'] = array(
     'description' => 'Commerce tax patterns.',
     'fields' => array(
@@ -37,6 +37,6 @@ function commerce_reports_patterns_schema() {
       ),
     ),
   );
-  
+
   return $schema;
 }
