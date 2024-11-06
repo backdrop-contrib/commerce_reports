@@ -1,5 +1,6 @@
 name = "Commerce Reports Geckoboard"
 description = "Provides integration for Drupal Commerce with Geckoboard."
+package = Commerce (reporting)
 backdrop = 1.x
 type = module
 dependencies[] = "commerce"

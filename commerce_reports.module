@@ -30,14 +30,7 @@ function commerce_reports_help($path, $arg) {
 function commerce_reports_autoload_info() {
   return array(
     'commerce_reports_handler_sort_date' => 'includes/views/handlers/commerce_reports_handler_sort_date.inc',
-    'CommerceReportsBaseTestCase' => 'src/Tests/CommerceReportsBaseTestCase.php',
-    'CommerceReportsCustomerTestCase' => 'src/Tests/CommerceReportsCustomerTestCase.php',
-    'CommerceReportsPaymentMethodTestCase' => 'src/Tests/CommerceReportsPaymentMethodTestCase.php',
-    'CommerceReportsProductTestCase' => 'src/Tests/CommerceReportsProductTestCase.php',
-    'CommerceReportsSalesOverviewTestCase' => 'src/Tests/CommerceReportsSalesOverviewTestCase.php',
-    'CommerceReportsSalesTestCase' => 'src/Tests/CommerceReportsSalesTestCase.php',
-    'CommerceReportsUITestCase' => 'src/Tests/CommerceReportsUITestCase.php',
-    'CommerceReportsViewsExportTestCase' => 'src/Tests/CommerceReportsViewsExportTestCase.php',
+    'CommerceReportsDashboardLayoutContext' => 'includes/commerce_reports_dashboard_layout_context.inc',
   );
 }
 
@@ -56,15 +49,33 @@ function commerce_reports_menu() {
     'file' => 'commerce_reports.dashboard.inc',
     'weight' => -20,
   );
-  $items['admin/commerce/reports/dashboard'] = array(
-    'title' => 'Dashboard',
-    'description' => 'View reports for your store.',
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-    'file' => 'commerce_reports.dashboard.inc',
-    'weight' => 0,
-  );
 
   return $items;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function commerce_reports_menu_alter(&$items) {
+  if (isset($items['admin/commerce/reports/dashboard'])) {
+    // Add a description for the admin and admin/index pages.
+    $items['admin/commerce/reports/dashboard']['description'] = 'Get an overview of Commerce Reports.';
+    $items['admin/commerce/reports/dashboard']['icon'] = 'speedometer-fill';
+  }
+}
+
+/**
+ * Implements hook_layout_context_info().
+ */
+function commerce_reports_layout_context_info() {
+  $info['commerce_reports_dashboard'] = array(
+    'title' => t('Commerce Reports Dashboard'),
+    'class' => 'CommerceReportsDashboardLayoutContext',
+    'menu paths' => array(
+      'admin/commerce/reports/dashboard',
+    ),
+  );
+  return $info;
 }
 
 /**

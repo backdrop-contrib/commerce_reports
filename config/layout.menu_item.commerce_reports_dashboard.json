@@ -1,0 +1,30 @@
+{
+    "_config_name": "layout.menu_item.commerce_reports_dashboard",
+    "name": "commerce_reports_dashboard",
+    "title": "",
+    "path": "admin/commerce/reports/dashboard",
+    "menu": {
+        "title": "Commerce Reports Dashboard",
+        "weight": 0,
+        "type": "normal",
+        "name": "management",
+        "parent": {
+            "title": "",
+            "weight": 0,
+            "type": "none",
+            "name": "main-menu"
+        }
+    },
+    "conditions": [
+        {
+            "plugin": "user_permission",
+            "data": {
+                "settings": {
+                    "permission": "access commerce reports",
+                    "load_condition_nojs": "Load condition"
+                }
+            }
+        }
+    ],
+    "arguments": []
+}

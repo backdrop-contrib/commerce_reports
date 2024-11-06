@@ -1,0 +1,97 @@
+{
+    "_config_name": "layout.layout.commerce_reports_dashboard",
+    "path": "admin/commerce/reports/dashboard2",
+    "name": "commerce_reports_dashboard",
+    "title": "Commerce Reports Dashboard",
+    "description": null,
+    "renderer_name": "standard",
+    "module": "commerce_reports",
+    "weight": 0,
+    "storage": 4,
+    "layout_template": "sutro",
+    "disabled": false,
+    "settings": {
+        "title": "",
+        "title_display": "default",
+        "title_block": null
+    },
+    "positions": {
+        "header": [
+            "e5c95cdb-cc61-4c1c-b507-7b97eb2bc086"
+        ],
+        "top": [],
+        "content": [],
+        "half1": [],
+        "half2": [
+            "0f52b8d0-a518-4260-b848-72659c90828a"
+        ],
+        "bottom": [],
+        "footer": [],
+        "title": []
+    },
+    "contexts": [],
+    "relationships": [],
+    "content": {
+        "e5c95cdb-cc61-4c1c-b507-7b97eb2bc086": {
+            "plugin": "system:breadcrumb",
+            "data": {
+                "status": 1,
+                "module": "system",
+                "delta": "breadcrumb",
+                "settings": {
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": []
+                },
+                "uuid": "e5c95cdb-cc61-4c1c-b507-7b97eb2bc086",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "0f52b8d0-a518-4260-b848-72659c90828a": {
+            "plugin": "commerce_reports:commerce_reports_sales",
+            "data": {
+                "status": 1,
+                "module": "commerce_reports",
+                "delta": "commerce_reports_sales",
+                "settings": {
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "0f52b8d0-a518-4260-b848-72659c90828a",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "conditions": [
+        {
+            "plugin": "user_permission",
+            "data": {
+                "settings": {
+                    "permission": "access commerce reports",
+                    "load_condition_nojs": "Load condition"
+                }
+            }
+        }
+    ]
+}
